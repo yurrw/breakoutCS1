@@ -1,0 +1,73 @@
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_timer.h>
+#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+#include "Defs.h"
+#include "Globals.h"
+#include "Funcoes.h"
+
+int main(int argc, char *argv[]){
+	
+	if(argc < 3 || argc > 3){
+		puts("Quantidade de argumentos inválida, inicialize com - Largura  Altura - ");
+		return 1;
+	}
+
+	if(init(argv[1],argv[2]) == 1){
+		return 1;
+	}
+   
+    //void createNPC(NPC *p,int x,int y,int w,int h,int velX,int velY,char path[]){
+
+
+	createNPC(&ball,WIDTH/2,HEIGHT/2,36,36,7,7,"ball.png");
+	createNPC(&plataform,WIDTH/2,0.9*HEIGHT,200,20,23,23,"plataform.png");
+    createBricks(&brick,lvl);
+
+	while(play){
+		if(SDL_PollEvent(&event)){
+			switch(event.type){
+				case SDL_QUIT:
+					play = 0;
+					break;
+				case SDL_KEYDOWN:
+					switch(event.key.keysym.sym){
+						case SDLK_ESCAPE:
+							play = 0;
+							break;
+						case SDLK_LEFT:
+							if(plataform.rect.x < 0){
+								plataform.rect.x -= 0;
+							}else{
+								plataform.rect.x -= plataform.velX;
+							}
+							break;
+						case SDLK_RIGHT:
+							if(plataform.rect.x > WIDTH - plataform.rect.w){
+								plataform.rect.x += 0;	
+							}else{
+								plataform.rect.x += plataform.velX;
+							}
+							break;
+					}
+					break;
+			}
+		}
+
+		moveNPC(&ball);
+
+		SDL_SetRenderDrawColor(gRenderer,255,255,255,255);
+		SDL_RenderClear(gRenderer);
+
+		SDL_RenderCopy(gRenderer,ball.texture,NULL,&ball.rect);
+		SDL_RenderCopy(gRenderer,plataform.texture,NULL,&plataform.rect);
+
+		SDL_RenderPresent(gRenderer);
+		SDL_Delay(16);
+	}
+
+	SDL_Quit();
+
+	return 0;
+}
