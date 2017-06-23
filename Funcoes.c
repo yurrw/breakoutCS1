@@ -105,7 +105,7 @@ void moveNPC(NPC *p){
 	}
 }
 
-void createBricks(int lvl){
+void createBricks(BRICK *brick,int lvl){
 
 
 
