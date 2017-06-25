@@ -8,13 +8,14 @@ typedef struct _NPC{
 	SDL_Rect rect;
 }NPC;
 
-typedef struct _BRICKSONE{
-    int posY,posX,lives;
-    SDL_Texture *texture;
-    SDL_Rect rext;
-}BRICKONE;
-
 typedef struct _BRICKS{
-    BRICKONE brks;
-}BRICK;
+    int lives;  // bricks` lifes
+    int x;      // X position
+    int y;      // Y position
+	SDL_Texture *texture;
+	SDL_Rect rect;
+
+}BRICK; 
+
+//@TODO > players` structure 
 #endif

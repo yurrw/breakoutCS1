@@ -4,6 +4,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 #include <math.h>
+#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "Defs.h"
@@ -43,7 +44,7 @@ int init(char w[],char h[]){
 
 int loadMedia(NPC *p,char path[]){
 	SDL_Surface *imageLoader;
-
+    printf("IMGAMGEM  ==> %s\n\n",path );
 	imageLoader = IMG_Load(path);
 	if(!imageLoader){
 		printf("Nao foi possivel carregar a imagem : %s\n",SDL_GetError());
@@ -59,6 +60,139 @@ int loadMedia(NPC *p,char path[]){
 	return 0;
 
 }
+int loadBrick(BRICK *p,char path[]){
+	SDL_Surface *imageLoader;
+    printf("IMAGEBRICK %s\n\n",path);
+	imageLoader = IMG_Load(path);
+	if(!imageLoader){
+		printf("Nao foi possivel carregar a imagem : %s\n",SDL_GetError());
+		return 1;
+	}
+
+	p->texture = SDL_CreateTextureFromSurface(gRenderer,imageLoader);
+	if(!p->texture){
+		printf("Nao foi possivel carregar a textura : %s\n",SDL_GetError());
+		return 1;
+	}
+
+	return 0;
+
+}
+void createBricks(int lvl){
+   
+    srand((unsigned int)time(NULL)); // random`s seed
+    int i,j,y,x;                     // control variables
+    i = j = y = x = 0;               // x axis , y axis
+    brick=(BRICK **)malloc(ROWS * sizeof(BRICK *));
+    
+    for (i = 0; i < COLS ; ++i)    //create inner-array
+        brick[i] = (BRICK *)malloc(COLS * sizeof(BRICK));
+    
+    if(brick == NULL){
+        printf("erro ao alocar memoria para os blocos\n"); 
+        return;  
+    }
+
+            int randomLife;                  // number of lives of a block
+    /*
+            brick[1][1].lives=2;    // block`s life
+            brick[1][1].x= 300;
+            brick[1][1].y=300; 
+            brick[1][1].rect.x= 200;
+            brick[1][1].rect.y = 0;
+            brick[1][1].rect.w = 55;
+            brick[1][1].rect.h = 27;
+            
+            loadBrick(&brick[1][1],"plataform.png");
+    */
+      for(i=0 ; i < ROWS ; i++ ){
+        //generate rows of n cols
+        y +=27 + 3; 
+        for( j =0 ; j < COLS ; j++){
+        //generate columns` of the row
+            randomLife = rand() % 3;
+
+            brick[i][j].lives=randomLife;  // block`s life
+            brick[i][j].x= x;
+            brick[i][j].y= y; 
+            brick[i][j].rect.x= x;
+            brick[i][j].rect.y = y;
+            brick[i][j].rect.w = 55;
+            brick[i][j].rect.h = 27;
+            
+            loadBrick(&brick[i][j],"plataform.png");
+  
+            x += 60;
+            if (x >= WIDTH)
+                break;
+            else 
+                continue;
+        }
+        x = 0;
+    }
+    
+/*
+
+    brick->lives=2;  // block`s life
+    brick->x= 300;
+    brick->y=300; 
+    brick->rect.x= 200;
+    brick->rect.y = 0;
+    brick->rect.w = 55;
+    brick->rect.h = 27;
+    
+    int p =  loadBrick(brick,"plataform.png");
+ */
+
+
+/*
+   for (j = 0; j < COLS; j++)
+    { 
+        // create the row of 10 bricks (10 cols)
+        x = x + 40;
+        y = 40;
+        GRect brick = newGRect(x, y, 36, 10);
+        add (window, brick);
+ 
+        // set color for initial row of 10 cols
+        setColor(brick, "PINK");
+        setFilled(brick, true);
+ 
+        // create a row of bricks under each col in row (5 rows)   
+        for (i = 0; i < ROWS - 1; i++)
+        {
+            y = y + 12;
+            GRect brick = newGRect(x, y, 36, 10);
+            add (window, brick);
+ 
+            // set colors for each row individually
+            if (i == 0)
+            {
+                setColor(brick, "RED");
+                setFilled(brick, true);
+            }
+ 
+            if (i == 1)
+            {
+                setColor(brick, "ORANGE");
+                setFilled(brick, true);
+            }
+ 
+            if (i == 2)
+            {
+                setColor(brick, "YELLOW");
+                setFilled(brick, true);
+            }
+ 
+            if (i == 3)
+            {
+                setColor(brick, "GREEN");
+                setFilled(brick, true);
+            } 
+        }
+    }*
+ * */
+ };
 
 void createNPC(NPC *p,int x,int y,int w,int h,int velX,int velY,char path[]){
 
@@ -105,12 +239,4 @@ void moveNPC(NPC *p){
 	}
 }
 
-void createBricks(BRICK *brick,int lvl){
-
-
-
-
-
-
-};
 

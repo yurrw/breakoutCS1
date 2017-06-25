@@ -8,7 +8,7 @@
 #include "Funcoes.h"
 
 int main(int argc, char *argv[]){
-	
+	int i, j; // control
 	if(argc < 3 || argc > 3){
 		puts("Quantidade de argumentos inválida, inicialize com - Largura  Altura - ");
 		return 1;
@@ -22,9 +22,9 @@ int main(int argc, char *argv[]){
 
 
 	createNPC(&ball,WIDTH/2,HEIGHT/2,36,36,7,7,"ball.png");
-	createNPC(&plataform,WIDTH/2,0.9*HEIGHT,200,20,23,23,"plataform.png");
-    createBricks(&brick,lvl);
+    createBricks(lvl);
 
+	createNPC(&plataform,WIDTH/2,0.9*HEIGHT,200,20,23,23,"teste.png");
 	while(play){
 		if(SDL_PollEvent(&event)){
 			switch(event.type){
@@ -56,13 +56,16 @@ int main(int argc, char *argv[]){
 		}
 
 		moveNPC(&ball);
-
+        
 		SDL_SetRenderDrawColor(gRenderer,255,255,255,255);
 		SDL_RenderClear(gRenderer);
 
 		SDL_RenderCopy(gRenderer,ball.texture,NULL,&ball.rect);
-		SDL_RenderCopy(gRenderer,plataform.texture,NULL,&plataform.rect);
 
+		SDL_RenderCopy(gRenderer,plataform.texture,NULL,&plataform.rect);
+        for (int i = 0; i < ROWS ; i++)
+            for (int j =0; j < COLS;j++)
+                SDL_RenderCopy(gRenderer,brick[i][j].texture,NULL,&brick[i][j].rect);
 		SDL_RenderPresent(gRenderer);
 		SDL_Delay(16);
 	}

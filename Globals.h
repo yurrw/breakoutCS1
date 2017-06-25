@@ -12,6 +12,8 @@ extern TTF_Font *gFont;
 
 extern NPC ball;
 extern NPC plataform;
-extern BRICK brick;
+extern int COLS;
+extern int ROWS;
+extern BRICK **brick;
 
 #endif
