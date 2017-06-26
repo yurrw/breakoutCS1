@@ -9,19 +9,25 @@
 
 int main(int argc, char *argv[]){
 	int i, j; // control
-	if(argc < 3 || argc > 3){
-		puts("Quantidade de argumentos inválida, inicialize com - Largura  Altura - ");
+	if(argc > 1){
+		if(argc < 3 || argc > 3){
+			puts("Quantidade de argumentos inválida, inicialize com - Largura  Altura - ");
 		return 1;
+		}
+		if(init(argv[1],argv[2]) == 1){
+			return 1;
+		}	
+	}else{
+		if(init("640","480") == 1){
+			return 1;
+		}
 	}
-
-	if(init(argv[1],argv[2]) == 1){
-		return 1;
-	}
+	
    
     //void createNPC(NPC *p,int x,int y,int w,int h,int velX,int velY,char path[]){
 
 
-	createNPC(&ball,WIDTH/2,HEIGHT/2,36,36,7,7,"ball.png");
+	createNPC(&ball,WIDTH/2,HEIGHT/2,20,19,4,4,"ball.png");
     createBricks(lvl);
 
 	createNPC(&plataform,WIDTH/2,0.9*HEIGHT,200,20,23,23,"plataform.png");

@@ -120,9 +120,12 @@ void createNPC(NPC *p,int x,int y,int w,int h,int velX,int velY,char path[]){
 
 void moveNPC(NPC *p){
 	int dx,dy,maxDistance,minDistance,distance;
+
 	dx = p->rect.x - plataform.rect.x;
 	dy = p->rect.y - plataform.rect.y;
+
 	distance = sqrt(dx*dx + dy*dy);
+	
 	maxDistance = sqrt( (plataform.rect.w - p->rect.w/2) * (plataform.rect.w - p->rect.w/2) + (p->rect.h)*(p->rect.h) );
 	minDistance = sqrt( (p->rect.h)*(p->rect.h) + (p->rect.w/2)*(p->rect.w/2) );
 
@@ -161,51 +164,42 @@ void moveNPC(NPC *p){
     /*fim de jogo*/
 	if(p->rect.y > HEIGHT - p->rect.h ){
 		//hit`s bottom
-        SDL_Delay(2000);
-		p->rect.x = 0.2*WIDTH;
-		p->rect.y = 0.2*HEIGHT;
+		p->rect.x = 0.5*WIDTH;
+		p->rect.y = 0.5*HEIGHT;
 	}
     // hits bricks 
-    if(p->rect.y <= 155)
+    if(p->rect.y <= 6*brick[0][0].rect.h){
         trackCollision(p,3); 
+    }
 }
 
 int trackCollision(NPC *p,int opt){
     int i,j;
-    printf("Tracking bricks:::\n");
-    if (opt == 3){
-    //option 3 = bricks
-        for (i = 0; i < ROWS ; i++){
-            for (j =0; j < COLS;j++){
-               // SDL_RenderCopy(gRenderer,brick[i][j].texture,NULL,&brick[i][j].rect;
-                if(!brick[i][j].existance){
-                    continue;             
-                }else{
-                   if((p->rect.y  > brick[i][j].rect.y -33   &&  p->rect.y  < brick[i][j].rect.y + 33 ) ){ 
-                       if(  (p->rect.x  > brick[i][j].rect.x - 55  &&  p->rect.x  < brick[i][j].rect.x + 55 ) ){
-                            if (!brick[i][j].lives){
-                            brick[i][j].texture = NULL;     //Reset texture                         
-                            brick[i][j].existance  = 0;     //Reset texture                         
-                            }else
-                                brick[i][j].lives--; 
-                            //-p->velX;  //redirect ball 
-                           	//@TODO:ARRUMAR A PORRA QUE A DIRECAO TA BATENDO 
-                            p->velY = (-1)*p->velY;
+   
+    for (i = 0; i < ROWS ; i++){
+        for (j =0; j < COLS;j++){
+           // SDL_RenderCopy(gRenderer,brick[i][j].texture,NULL,&brick[i][j].rect;
+            if(!brick[i][j].existance){
+                continue;             
+            }else{
+               if((p->rect.y  > brick[i][j].rect.y -33   &&  p->rect.y  < brick[i][j].rect.y + 33 ) ){ 
+                   if(  (p->rect.x  > brick[i][j].rect.x - 55  &&  p->rect.x  < brick[i][j].rect.x + 55 ) ){
+                        if (!brick[i][j].lives){
+	                        brick[i][j].texture = NULL;     //Reset texture                         
+	                        brick[i][j].existance  = 0;     //Reset texture                         
+                        }else{
+                            brick[i][j].lives--; 
+                        //-p->velX;  //redirect ball 
+                       	//@TODO:ARRUMAR A PORRA QUE A DIRECAO TA BATENDO 
+	                        p->velY = (-1)*p->velY;
 	                    	p->rect.y += p->velY;
- 
-                          	p->velX = (-1)*p->velX;
-	                    	p->rect.x += p->velX;
- 
-                          //  p->velX =0 ;
-                           //  p->velY=0;                             brick[i][j].existance = 0;
-                    }
-                   }
-                }
+						}
+                      //  p->velX =0 ;
+                       //  p->velY=0;                             brick[i][j].existance = 0;
+                	}
+               	}
             }
-        }
-
-
-        return 0;
+        }       
     }
-    
+    return 0;
 }
