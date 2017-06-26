@@ -42,7 +42,7 @@ int init(char w[],char h[]){
 
 }
 
-int loadMedia(NPC *p,char path[]){
+int loadMedia(SDL_Texture **tex,char path[]){
 	SDL_Surface *imageLoader;
     printf("IMGAMGEM  ==> %s\n\n",path );
 	imageLoader = IMG_Load(path);
@@ -51,30 +51,14 @@ int loadMedia(NPC *p,char path[]){
 		return 1;
 	}
 
-	p->texture = SDL_CreateTextureFromSurface(gRenderer,imageLoader);
-	if(!p->texture){
+    *tex = SDL_CreateTextureFromSurface(gRenderer,imageLoader);
+	if(!tex){
 		printf("Nao foi possivel carregar a textura : %s\n",SDL_GetError());
 		return 1;
 	}
 
 	return 0;
 
-}
-int loadBrick(BRICK *p,char path[]){
-	SDL_Surface *imageLoader;
-	imageLoader = IMG_Load(path);
-	if(!imageLoader){
-		printf("Nao foi possivel carregar a imagem : %s\n",SDL_GetError());
-		return 1;
-	}
-
-	p->texture = SDL_CreateTextureFromSurface(gRenderer,imageLoader);
-	if(!p->texture){
-		printf("Nao foi possivel carregar a textura : %s\n",SDL_GetError());
-		return 1;
-	}
-
-	return 0;
 
 }
 void createBricks(int lvl){
@@ -109,8 +93,8 @@ void createBricks(int lvl){
             brick[i][j].rect.w = 55;
             brick[i][j].rect.h = 27;
             
-            loadBrick(&brick[i][j],"plataform.png");
   
+            loadMedia(&brick[i][j].texture,"plataform.png");
             x += 60;
             if (x >= WIDTH)
                 break;
@@ -131,7 +115,7 @@ void createNPC(NPC *p,int x,int y,int w,int h,int velX,int velY,char path[]){
 	p->rect.y = y;
 	p->rect.w = w;
 	p->rect.h = h;
-	loadMedia(p,path);
+	loadMedia(&p->texture,path);
 }
 
 void moveNPC(NPC *p){
@@ -161,10 +145,20 @@ void moveNPC(NPC *p){
     //@TODO = corrigir direcao da bola depois de bater na plataforma
     //          desmembrar esse if pra por corretamente
 	if(p->rect.y > 0.9*HEIGHT-p->rect.w && distance < maxDistance && distance > minDistance && dx > 0 && p->velY > 0){
-		p->velY = -p->velY;	p->velX = -p->velX;
+		p->velY = -p->velY;
+      //      p->velX = -p->velX;
 		p->rect.y += p->velY;
-	}
-	/*fim de jogo*/
+        //		p->rect.x += p->velX;
+   /*     if(p->rect.x >(plataform.rect.w /2 ) ){
+     	p->velY = -p->velY;
+     
+		p->rect.y += p->velY;
+        
+        printf("TEGA\n\n");
+        
+        }*/
+    }
+    /*fim de jogo*/
 	if(p->rect.y > HEIGHT - p->rect.h ){
 		//hit`s bottom
         SDL_Delay(2000);
@@ -189,14 +183,14 @@ int trackCollision(NPC *p,int opt){
                 }else{
                    if((p->rect.y  > brick[i][j].rect.y -33   &&  p->rect.y  < brick[i][j].rect.y + 33 ) ){ 
                        if(  (p->rect.x  > brick[i][j].rect.x - 55  &&  p->rect.x  < brick[i][j].rect.x + 55 ) ){
-//@TODO: check bricks`s life 
                             if (!brick[i][j].lives){
                             brick[i][j].texture = NULL;     //Reset texture                         
                             brick[i][j].existance  = 0;     //Reset texture                         
                             }else
                                 brick[i][j].lives--; 
                             //-p->velX;  //redirect ball 
-                           	p->velY = (-1)*p->velY;
+                           	//@TODO:ARRUMAR A PORRA QUE A DIRECAO TA BATENDO 
+                            p->velY = (-1)*p->velY;
 	                    	p->rect.y += p->velY;
  
                           	p->velX = (-1)*p->velX;

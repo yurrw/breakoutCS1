@@ -24,7 +24,7 @@ int main(int argc, char *argv[]){
 	createNPC(&ball,WIDTH/2,HEIGHT/2,36,36,7,7,"ball.png");
     createBricks(lvl);
 
-	createNPC(&plataform,WIDTH/2,0.9*HEIGHT,200,20,23,23,"teste.png");
+	createNPC(&plataform,WIDTH/2,0.9*HEIGHT,200,20,23,23,"plataform.png");
 	while(play){
 		if(SDL_PollEvent(&event)){
 			switch(event.type){
