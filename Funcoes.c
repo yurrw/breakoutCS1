@@ -62,7 +62,6 @@ int loadMedia(NPC *p,char path[]){
 }
 int loadBrick(BRICK *p,char path[]){
 	SDL_Surface *imageLoader;
-    printf("IMAGEBRICK %s\n\n",path);
 	imageLoader = IMG_Load(path);
 	if(!imageLoader){
 		printf("Nao foi possivel carregar a imagem : %s\n",SDL_GetError());
@@ -93,14 +92,15 @@ void createBricks(int lvl){
         return;  
     }
 
-            int randomLife;                  // number of lives of a block
-      for(i=0 ; i < ROWS ; i++ ){
+    int randomLife;                  // number of lives of a block
+    for(i=0 ; i < ROWS ; i++ ){
         //generate rows of n cols
         y +=27 + 3; 
         for( j =0 ; j < COLS ; j++){
         //generate columns` of the row
             randomLife = rand() % 3;
 
+            brick[i][j].existance=1;       // block`s check
             brick[i][j].lives=randomLife;  // block`s life
             brick[i][j].x= x;
             brick[i][j].y= y; 
@@ -155,17 +155,63 @@ void moveNPC(NPC *p){
 		p->velY = (-1)*p->velY;
 		p->rect.y += p->velY;
 	}
+    
+
 	/*plataforma*/
+    //@TODO = corrigir direcao da bola depois de bater na plataforma
+    //          desmembrar esse if pra por corretamente
 	if(p->rect.y > 0.9*HEIGHT-p->rect.w && distance < maxDistance && distance > minDistance && dx > 0 && p->velY > 0){
-		p->velY = (-1)*p->velY;
+		p->velY = -p->velY;	p->velX = -p->velX;
 		p->rect.y += p->velY;
 	}
 	/*fim de jogo*/
 	if(p->rect.y > HEIGHT - p->rect.h ){
-		SDL_Delay(2000);
+		//hit`s bottom
+        SDL_Delay(2000);
 		p->rect.x = 0.2*WIDTH;
 		p->rect.y = 0.2*HEIGHT;
 	}
+    // hits bricks 
+    if(p->rect.y <= 155)
+        trackCollision(p,3); 
 }
 
+int trackCollision(NPC *p,int opt){
+    int i,j;
+    printf("Tracking bricks:::\n");
+    if (opt == 3){
+    //option 3 = bricks
+        for (i = 0; i < ROWS ; i++){
+            for (j =0; j < COLS;j++){
+               // SDL_RenderCopy(gRenderer,brick[i][j].texture,NULL,&brick[i][j].rect;
+                if(!brick[i][j].existance){
+                    continue;             
+                }else{
+                   if((p->rect.y  > brick[i][j].rect.y -33   &&  p->rect.y  < brick[i][j].rect.y + 33 ) ){ 
+                       if(  (p->rect.x  > brick[i][j].rect.x - 55  &&  p->rect.x  < brick[i][j].rect.x + 55 ) ){
+//@TODO: check bricks`s life 
+                            if (!brick[i][j].lives){
+                            brick[i][j].texture = NULL;     //Reset texture                         
+                            brick[i][j].existance  = 0;     //Reset texture                         
+                            }else
+                                brick[i][j].lives--; 
+                            //-p->velX;  //redirect ball 
+                           	p->velY = (-1)*p->velY;
+	                    	p->rect.y += p->velY;
+ 
+                          	p->velX = (-1)*p->velX;
+	                    	p->rect.x += p->velX;
+ 
+                          //  p->velX =0 ;
+                           //  p->velY=0;                             brick[i][j].existance = 0;
+                    }
+                   }
+                }
+            }
+        }
 
+
+        return 0;
+    }
+    
+}

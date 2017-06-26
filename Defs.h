@@ -9,6 +9,7 @@ typedef struct _NPC{
 }NPC;
 
 typedef struct _BRICKS{
+    int existance;
     int lives;  // bricks` lifes
     int x;      // X position
     int y;      // Y position

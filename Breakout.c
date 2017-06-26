@@ -63,10 +63,11 @@ int main(int argc, char *argv[]){
 		SDL_RenderCopy(gRenderer,ball.texture,NULL,&ball.rect);
 
 		SDL_RenderCopy(gRenderer,plataform.texture,NULL,&plataform.rect);
-        for (int i = 0; i < ROWS ; i++)
-            for (int j =0; j < COLS;j++)
+        for (i = 0; i < ROWS ; i++)
+            for (j =0; j < COLS;j++){
                 SDL_RenderCopy(gRenderer,brick[i][j].texture,NULL,&brick[i][j].rect);
-		SDL_RenderPresent(gRenderer);
+	        }
+        SDL_RenderPresent(gRenderer);
 		SDL_Delay(16);
 	}
 
