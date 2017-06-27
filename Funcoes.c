@@ -167,7 +167,9 @@ void moveNPC(NPC *p){
             	p->velX = - p->velX;
 		        p->rect.x += p->velX;
             }
-        	printf("direita\n\n");
+                 p->velX =  ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /40) * p->velX ;
+                 p->rect.x += p->velX;
+            printf("direita\n\n");
         }else if(p->rect.x < ( plataform.rect.x + (plataform.rect.w) /2 ) ){
             p->velY = -p->velY;
 		    p->rect.y += p->velY;
@@ -175,7 +177,8 @@ void moveNPC(NPC *p){
             	p->velX = - p->velX;
 		        p->rect.x += p->velX;
             }
- 
+                 p->velX = - ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /40) * p->velX ;
+                 p->rect.x += p->velX; 
         }else{
             p->velY = -p->velY;
 		    p->rect.y += p->velY;
