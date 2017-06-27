@@ -66,8 +66,9 @@ void createBricks(int lvl){
     srand((unsigned int)time(NULL)); // random`s seed
     int i,j,y,x;                     // control variables
     i = j = 0; // x axis , y axis
-    y = 30; //espaço inicial em cima antes dos blocos para a bola quebrar varios de uma vez     
     x = (WIDTH / 4);
+
+    y = 30; //espaço inicial em cima antes dos blocos para a bola quebrar varios de uma vez     
     brick=(BRICK **)malloc(ROWS * sizeof(BRICK *));
     
     for (i = 0; i < COLS ; ++i)    //create inner-array
@@ -87,8 +88,8 @@ void createBricks(int lvl){
 
             brick[i][j].existance=1;       // block`s check
             brick[i][j].lives=randomLife;  // block`s life
-            brick[i][j].x= x;
-            brick[i][j].y= y; 
+            brick[i][j].x= 0;
+            brick[i][j].y= 0; 
             brick[i][j].rect.x= x;
             brick[i][j].rect.y = y;
             brick[i][j].rect.w = WIDTH/10;
@@ -104,7 +105,7 @@ void createBricks(int lvl){
             }
  			
             //loadMedia(&brick[i][j].texture,"plataform.png");
-            x += (WIDTH/10) + 3;
+            x = x + (WIDTH/10) + 3;
             if (x >= WIDTH - 30)
                 break;
             else 
@@ -144,7 +145,7 @@ void moveNPC(NPC *p){
 	p->rect.y += p->velY;
 
 	/*laterais*/
-	if(p->rect.x > WIDTH - p->rect.w || p->rect.x < 0){
+	if(p->rect.x > WIDTH - p->rect.w || p->rect.x < WIDTH / 4){
 		p->velX = (-1)*p->velX;
 		p->rect.x += p->velX;
 	}
@@ -257,13 +258,13 @@ void menu() {
 					}
 					break;
 				case SDL_MOUSEBUTTONDOWN:
-					if (mouseX > 170 && mouseX < 480 && mouseY > 68 && mouseY < 175) 
+					if (mouseX > WIDTH / 4 && mouseX < (WIDTH / 4) * 3 && mouseY > HEIGHT / 7 && mouseY < (int)(HEIGHT / 2.7)) 
 					{
 						SDL_DestroyTexture(menuImg);
 						return;
 					}
 
-					else if(mouseX > 170 && mouseX < 480 && mouseY > 336 && mouseY < 443)
+					else if(mouseX > WIDTH / 4 && mouseX < (WIDTH / 4) * 3 && mouseY > (int)(HEIGHT / 1.4) && mouseY < (int)(HEIGHT / 1.08))
 					{
 						play = 0;
 						break;
