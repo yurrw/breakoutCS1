@@ -25,10 +25,10 @@ int main(int argc, char *argv[]){
 	
    
     //void createNPC(NPC *p,int x,int y,int w,int h,int velX,int velY,char path[]){
-
-
+	menu();
+	
 	createNPC(&ball,WIDTH/2,HEIGHT/2,20,19,5,5,"ball.png");
-    createBricks(lvl);
+   	 createBricks(lvl);
 
 	createNPC(&plataform,WIDTH/2,0.9*HEIGHT,200,25,23,23,"plataform.png");
 	while(play){
