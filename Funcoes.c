@@ -234,3 +234,44 @@ int trackCollision(NPC *p,int opt){
     }
     return 0;
 }
+
+void menu() {
+	int mouseX, mouseY;
+	SDL_Texture *menuImg;
+	loadMedia(&menuImg,"menu.png");
+	SDL_RenderCopy(gRenderer,menuImg,NULL,NULL);
+	SDL_RenderPresent(gRenderer);
+	while(play){
+		SDL_GetMouseState(&mouseX, &mouseY);
+		if(SDL_PollEvent(&event)){
+			switch(event.type){
+				case SDL_QUIT:
+					play = 0;
+					break;
+				case SDL_KEYDOWN:
+					switch(event.key.keysym.sym){
+						case SDLK_ESCAPE:
+							play = 0;
+							break;
+					}
+					break;
+				case SDL_MOUSEBUTTONDOWN:
+					if (mouseX > 170 && mouseX < 480 && mouseY > 68 && mouseY < 175) 
+					{
+						SDL_DestroyTexture(menuImg);
+						return;
+					}
+
+					else if(mouseX > 170 && mouseX < 480 && mouseY > 336 && mouseY < 443)
+					{
+						play = 0;
+						break;
+					}
+			}
+		}
+	}
+	SDL_DestroyRenderer(gRenderer);
+	SDL_DestroyWindow(gWindow);
+	SDL_DestroyTexture(menuImg);
+	SDL_Quit();
+}
