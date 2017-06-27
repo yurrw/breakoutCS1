@@ -9,6 +9,8 @@
 
 int main(int argc, char *argv[]){
 	int i, j; // control
+	BORDA limite;
+
 	if(argc > 1){
 		if(argc < 3 || argc > 3){
 			puts("Quantidade de argumentos inválida, inicialize com - Largura  Altura - ");
@@ -26,6 +28,11 @@ int main(int argc, char *argv[]){
    
     //void createNPC(NPC *p,int x,int y,int w,int h,int velX,int velY,char path[]){
 	menu();
+	loadMedia(&limite.texture,"borda.png");
+	limite.rect.x = (WIDTH / 4) - 10;
+	limite.rect.y = 0;
+	limite.rect.w = (WIDTH / 4) * 3 + 10;
+	limite.rect.h = HEIGHT;
 	
 	createNPC(&ball,WIDTH/2,HEIGHT/2,20,19,5,5,"ball.png");
    	 createBricks(lvl);
@@ -43,14 +50,14 @@ int main(int argc, char *argv[]){
 							play = 0;
 							break;
 						case SDLK_LEFT:
-							if(plataform.rect.x < 0){
+							if(plataform.rect.x < WIDTH / 4  + WIDTH / 48){
 								plataform.rect.x -= 0;
 							}else{
 								plataform.rect.x -= plataform.velX;
 							}
 							break;
 						case SDLK_RIGHT:
-							if(plataform.rect.x > WIDTH - plataform.rect.w){
+							if(plataform.rect.x > WIDTH - plataform.rect.w - WIDTH / 32){
 								plataform.rect.x += 0;	
 							}else{
 								plataform.rect.x += plataform.velX;
@@ -63,9 +70,11 @@ int main(int argc, char *argv[]){
 
 		moveNPC(&ball);
         
-		SDL_SetRenderDrawColor(gRenderer,255,255,255,255);
+		SDL_SetRenderDrawColor(gRenderer,0,0,0,0);
 		SDL_RenderClear(gRenderer);
-
+		//colocar score
+		SDL_RenderCopy(gRenderer,limite.texture,NULL,&limite.rect);
+		
 		SDL_RenderCopy(gRenderer,ball.texture,NULL,&ball.rect);
 
 		SDL_RenderCopy(gRenderer,plataform.texture,NULL,&plataform.rect);
