@@ -157,18 +157,34 @@ void moveNPC(NPC *p){
     //@TODO = corrigir direcao da bola depois de bater na plataforma
     //          desmembrar esse if pra por corretamente
 	if(p->rect.y > 0.9*HEIGHT-p->rect.w && distance < maxDistance && distance > minDistance && dx > 0 && p->velY > 0){
-		p->velY = -p->velY;
-      //      p->velX = -p->velX;
-		p->rect.y += p->velY;
-        //		p->rect.x += p->velX;
         if(p->rect.x >( plataform.rect.x + (plataform.rect.w) /2 ) ){
-     //	p->velY = -p->velY;
-     
-	//	p->rect.y += p->velY;
-        
+     	    p->velY = -p->velY;
+		    p->rect.y += p->velY;
+            if(p->velX < 0 ){
+            	p->velX = - p->velX;
+		        p->rect.x += p->velX;
+            }
         	printf("direita\n\n");
-        
+        }else if(p->rect.x < ( plataform.rect.x + (plataform.rect.w) /2 ) ){
+            p->velY = -p->velY;
+		    p->rect.y += p->velY;
+            if(p->velX > 0 ){
+            	p->velX = - p->velX;
+		        p->rect.x += p->velX;
+            }
+ 
+        }else{
+            p->velY = -p->velY;
+		    p->rect.y += p->velY;
+            if(p->velX > 0 ){
+            	p->velX = 0;
+		        p->rect.x += p->velX;
+            }
+ 
+
+            
         }
+ 
     }
     /*fim de jogo*/
 	if(p->rect.y > HEIGHT - p->rect.h ){
