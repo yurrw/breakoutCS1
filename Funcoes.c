@@ -237,7 +237,7 @@ int trackCollision(NPC *p,int opt){
     return 0;
 }
 
-void menu() {
+int menu() {
 	int mouseX, mouseY;
 	SDL_Texture *menuImg;
 	loadMedia(&menuImg,"menu.png");
@@ -261,7 +261,7 @@ void menu() {
 					if (mouseX > WIDTH / 4 && mouseX < (WIDTH / 4) * 3 && mouseY > HEIGHT / 7 && mouseY < (int)(HEIGHT / 2.7)) 
 					{
 						SDL_DestroyTexture(menuImg);
-						return;
+						return 0;
 					}
 
 					else if(mouseX > WIDTH / 4 && mouseX < (WIDTH / 4) * 3 && mouseY > (int)(HEIGHT / 1.4) && mouseY < (int)(HEIGHT / 1.08))
