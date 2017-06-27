@@ -1,10 +1,10 @@
 #ifndef DEFS_H
 #define DEFS_H
 
-typedef struct _BORDA{
+typedef struct _IMAG{
 	SDL_Texture *texture;
 	SDL_Rect rect;
-}BORDA;
+}IMAG;
 
 typedef struct _NPC{
 	int velX;
