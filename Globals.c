@@ -10,7 +10,7 @@ int WIDTH;
 int HEIGHT;
 int play = 1;
 int lvl= 1;
-int COLS = 10;
+int COLS = 7;
 int ROWS = 5;
 SDL_Window *gWindow;
 SDL_Renderer *gRenderer;
