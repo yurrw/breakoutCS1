@@ -153,6 +153,10 @@ void moveNPC(NPC *p){
 	if(p->rect.y < 0){
 		p->velY = (-1)*p->velY;
 		p->rect.y += p->velY;
+      if(p->velX == 0){
+                            p->velX = 3;
+                        }
+  
 	}
     
 	int teste;
@@ -234,7 +238,7 @@ int trackCollision(NPC *p,int opt){
  						p->velY = (-1)*p->velY;
 	                    p->rect.y += p->velY;
                         if(p->velX == 0){
-                            p->velX = 5;
+                            p->velX = 3;
                         }
                 	}
                	}
