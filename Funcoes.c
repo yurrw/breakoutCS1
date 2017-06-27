@@ -261,7 +261,7 @@ int menu() {
 					if (mouseX > WIDTH / 4 && mouseX < (WIDTH / 4) * 3 && mouseY > HEIGHT / 7 && mouseY < (int)(HEIGHT / 2.7)) 
 					{
 						SDL_DestroyTexture(menuImg);
-						return 0;
+						return 1;
 					}
 
 					else if(mouseX > WIDTH / 4 && mouseX < (WIDTH / 4) * 3 && mouseY > (int)(HEIGHT / 1.4) && mouseY < (int)(HEIGHT / 1.08))
@@ -276,4 +276,5 @@ int menu() {
 	SDL_DestroyWindow(gWindow);
 	SDL_DestroyTexture(menuImg);
 	SDL_Quit();
+	return 0;
 }
