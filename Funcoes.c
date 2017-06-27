@@ -44,7 +44,6 @@ int init(char w[],char h[]){
 
 int loadMedia(SDL_Texture **tex,char path[]){
 	SDL_Surface *imageLoader;
-    printf("IMGAMGEM  ==> %s\n\n",path );
 	imageLoader = IMG_Load(path);
 	if(!imageLoader){
 		printf("Nao foi possivel carregar a imagem : %s\n",SDL_GetError());
@@ -152,14 +151,14 @@ void moveNPC(NPC *p){
       //      p->velX = -p->velX;
 		p->rect.y += p->velY;
         //		p->rect.x += p->velX;
-   /*     if(p->rect.x >(plataform.rect.w /2 ) ){
-     	p->velY = -p->velY;
+        if(p->rect.x >(plataform.rect.w /2 ) ){
+     //	p->velY = -p->velY;
      
-		p->rect.y += p->velY;
+	//	p->rect.y += p->velY;
         
-        printf("TEGA\n\n");
+        printf("direita\n\n");
         
-        }*/
+        }
     }
     /*fim de jogo*/
 	if(p->rect.y > HEIGHT - p->rect.h ){
