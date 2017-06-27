@@ -65,8 +65,9 @@ void createBricks(int lvl){
    
     srand((unsigned int)time(NULL)); // random`s seed
     int i,j,y,x;                     // control variables
-    i = j = x = 0; // x axis , y axis
+    i = j = 0; // x axis , y axis
     y = 30; //espaço inicial em cima antes dos blocos para a bola quebrar varios de uma vez     
+    x = (WIDTH / 4);
     brick=(BRICK **)malloc(ROWS * sizeof(BRICK *));
     
     for (i = 0; i < COLS ; ++i)    //create inner-array
@@ -104,14 +105,14 @@ void createBricks(int lvl){
  			
             //loadMedia(&brick[i][j].texture,"plataform.png");
             x += (WIDTH/10) + 3;
-            if (x >= WIDTH)
+            if (x >= WIDTH - 30)
                 break;
             else 
                 continue;
         }
         //consertando o erro da bola atravessar alguns blocos da primeira linha
         y +=27 + 3; 
-        x = 0;
+        x = (WIDTH / 4);
     }
 
 
