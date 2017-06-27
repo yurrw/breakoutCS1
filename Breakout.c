@@ -9,7 +9,7 @@
 
 int main(int argc, char *argv[]){
 	int i, j; // control
-	BORDA limite;
+	IMAG limite, score;
 
 	if(argc > 1){
 		if(argc < 3 || argc > 3){
@@ -33,9 +33,14 @@ int main(int argc, char *argv[]){
 	limite.rect.y = 0;
 	limite.rect.w = (WIDTH / 4) * 3 + 10;
 	limite.rect.h = HEIGHT;
+	loadMedia(&score.texture,"score.png");
+	score.rect.x = 0;
+	score.rect.y = 0;
+	score.rect.w = 157;
+	score.rect.h = HEIGHT;
 	
 	createNPC(&ball,WIDTH/2,HEIGHT/2,20,19,5,5,"ball.png");
-   	 createBricks(lvl);
+   	createBricks(lvl);
 
 	createNPC(&plataform,WIDTH/2,0.9*HEIGHT,200,25,23,23,"plataform.png");
 	while(play){
@@ -72,11 +77,11 @@ int main(int argc, char *argv[]){
         
 		SDL_SetRenderDrawColor(gRenderer,0,0,0,0);
 		SDL_RenderClear(gRenderer);
+		//SDL_RenderCopy(borda);
 		//colocar score
+		SDL_RenderCopy(gRenderer,score.texture,NULL,&score.rect);
 		SDL_RenderCopy(gRenderer,limite.texture,NULL,&limite.rect);
-		
 		SDL_RenderCopy(gRenderer,ball.texture,NULL,&ball.rect);
-
 		SDL_RenderCopy(gRenderer,plataform.texture,NULL,&plataform.rect);
         for (i = 0; i < ROWS ; i++)
             for (j =0; j < COLS;j++){
@@ -90,12 +95,10 @@ int main(int argc, char *argv[]){
 	SDL_DestroyWindow(gWindow);
 	SDL_DestroyTexture(ball.texture);
 	SDL_DestroyTexture(plataform.texture);
-
 	for (i = 0; i < ROWS ; i++)
-        for (j =0; j < COLS;j++){
-            SDL_DestroyTexture(brick[i][j].texture);
-        }
-    free(brick);
+            for (j =0; j < COLS;j++){
+                SDL_DestroyTexture(brick[i][j].texture);
+            }
 	SDL_Quit();
 
 	return 0;
