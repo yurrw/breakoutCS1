@@ -90,10 +90,12 @@ int main(int argc, char *argv[]){
 	SDL_DestroyWindow(gWindow);
 	SDL_DestroyTexture(ball.texture);
 	SDL_DestroyTexture(plataform.texture);
+
 	for (i = 0; i < ROWS ; i++)
-            for (j =0; j < COLS;j++){
-                SDL_DestroyTexture(brick[i][j].texture);
-            }
+        for (j =0; j < COLS;j++){
+            SDL_DestroyTexture(brick[i][j].texture);
+        }
+    free(brick);
 	SDL_Quit();
 
 	return 0;
