@@ -50,7 +50,8 @@ int loadMedia(SDL_Texture **tex,char path[]){
 		return 1;
 	}
 
-    *tex = SDL_CreateTextureFromSurface(gRenderer,imageLoader);
+    	*tex = SDL_CreateTextureFromSurface(gRenderer,imageLoader);
+	SDL_FreeSurface(imageLoader);
 	if(!tex){
 		printf("Nao foi possivel carregar a textura : %s\n",SDL_GetError());
 		return 1;
