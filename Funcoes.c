@@ -155,11 +155,13 @@ void moveNPC(NPC *p){
 		p->rect.y += p->velY;
 	}
     
-
+int teste = (p->rect.x -  (plataform.rect.x + plataform.rect.w/2)); 
 	/*plataforma*/
     //@TODO = corrigir direcao da bola depois de bater na plataforma
     //          desmembrar esse if pra por corretamente
 	if(p->rect.y > 0.9*HEIGHT-p->rect.w && distance < maxDistance && distance > minDistance && dx > 0 && p->velY > 0){
+       
+            teste =  ( ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /40) * p->velX ) %100; 
         if(p->rect.x >( plataform.rect.x + (plataform.rect.w) /2 ) ){
      	    p->velY = -p->velY;
 		    p->rect.y += p->velY;
@@ -167,18 +169,19 @@ void moveNPC(NPC *p){
             	p->velX = - p->velX;
 		        p->rect.x += p->velX;
             }
-                 p->velX =  ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /40) * p->velX ;
-                 p->rect.x += p->velX;
-            printf("direita\n\n");
+                 p->velX = teste;
+                 p->rect.x +=  teste  == 0 ? p->velX : teste ;
+                 printf("%d",p->velX);
         }else if(p->rect.x < ( plataform.rect.x + (plataform.rect.w) /2 ) ){
             p->velY = -p->velY;
 		    p->rect.y += p->velY;
             if(p->velX > 0 ){
-            	p->velX = - p->velX;
+            	p->velX = - teste;
 		        p->rect.x += p->velX;
             }
-                 p->velX = - ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /40) * p->velX ;
-                 p->rect.x += p->velX; 
+                 p->velX = - teste;
+                 p->rect.x +=   teste  == 0 ? p->velX : teste; 
+        printf("%d",p->velX);
         }else{
             p->velY = -p->velY;
 		    p->rect.y += p->velY;
