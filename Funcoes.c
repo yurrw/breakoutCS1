@@ -161,27 +161,29 @@ int teste = (p->rect.x -  (plataform.rect.x + plataform.rect.w/2));
     //          desmembrar esse if pra por corretamente
 	if(p->rect.y > 0.9*HEIGHT-p->rect.w && distance < maxDistance && distance > minDistance && dx > 0 && p->velY > 0){
        
-            teste =  ( ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /40) * p->velX ) %100; 
+            teste =  (( ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /25) * p->velX ) %100)/2; 
         if(p->rect.x >( plataform.rect.x + (plataform.rect.w) /2 ) ){
      	    p->velY = -p->velY;
 		    p->rect.y += p->velY;
+                p->velX = teste;
+                 p->rect.x +=  teste  == 0 ? p->velX : teste ;
+                 printf("%d",p->velX);
             if(p->velX < 0 ){
             	p->velX = - p->velX;
 		        p->rect.x += p->velX;
             }
-                 p->velX = teste;
-                 p->rect.x +=  teste  == 0 ? p->velX : teste ;
-                 printf("%d",p->velX);
+        
         }else if(p->rect.x < ( plataform.rect.x + (plataform.rect.w) /2 ) ){
             p->velY = -p->velY;
 		    p->rect.y += p->velY;
-            if(p->velX > 0 ){
-            	p->velX = - teste;
-		        p->rect.x += p->velX;
-            }
-                 p->velX = - teste;
+                p->velX = - teste;
                  p->rect.x +=   teste  == 0 ? p->velX : teste; 
         printf("%d",p->velX);
+        if(p->velX > 0 ){
+            	p->velX = - p->velX ;
+		        p->rect.x += p->velX;
+            }
+            
         }else{
             p->velY = -p->velY;
 		    p->rect.y += p->velY;
