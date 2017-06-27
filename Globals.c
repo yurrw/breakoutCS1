@@ -19,3 +19,6 @@ TTF_Font *gFont;
 NPC ball;
 NPC plataform;
 BRICK **brick;
+Mix_Chunk *sideHit;
+Mix_Chunk *destroyBrick;
+Mix_Music *music;

@@ -27,6 +27,9 @@ int main(int argc, char *argv[]){
 	
    
     //void createNPC(NPC *p,int x,int y,int w,int h,int velX,int velY,char path[]){
+	if(loadSound() != 0){
+		return 1;
+	}
 	menu();
 	loadMedia(&limite.texture,"borda.png");
 	limite.rect.x = (WIDTH / 4) - 10;

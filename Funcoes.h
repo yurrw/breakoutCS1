@@ -8,4 +8,5 @@ void moveNPC(NPC *p);
 void createBricks(int lvl);
 int  trackCollision(NPC *p,int opt);
 int menu();
+int loadSound();
 #endif

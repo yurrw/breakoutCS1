@@ -37,6 +37,10 @@ int init(char w[],char h[]){
 		printf("Erro ao carregar as flags das imagens : %s\n",SDL_GetError());
 		return 1;
 	}
+	if(Mix_OpenAudio(44100,MIX_DEFAULT_FORMAT,2,2048) != 0){
+		printf("Erro ao abrir o canal de audio:%s\n",SDL_GetError());
+		return 1;
+	}
 
 	return 0;
 
@@ -146,6 +150,7 @@ void moveNPC(NPC *p){
 
 	/*laterais*/
 	if(p->rect.x > WIDTH - p->rect.w || p->rect.x < WIDTH / 4){
+		Mix_PlayChannel(-1,sideHit,0);
 		p->velX = (-1)*p->velX;
 		p->rect.x += p->velX;
 	}
@@ -226,6 +231,7 @@ int trackCollision(NPC *p,int opt){
                    		//decrementa dps testa a existencia, antes a bolinha atravessava e nao rebatia
                         brick[i][j].lives--; 
                    		if(brick[i][j].lives == 0){
+                   			Mix_PlayChannel(-1,destroyBrick,0);
                         	brick[i][j].texture = NULL;                            
                         	brick[i][j].existance  = 0; 
                         }
@@ -287,5 +293,26 @@ int menu() {
 	SDL_DestroyWindow(gWindow);
 	SDL_DestroyTexture(menuImg);
 	SDL_Quit();
+	return 0;
+}
+
+int loadSound(){
+	sideHit = Mix_LoadWAV("side_hit.wav");
+	if(sideHit == NULL){
+		printf("Erro ao carregar sideHit.wav : %s\n",Mix_GetError());
+		return 1;
+	}
+	destroyBrick = Mix_LoadWAV("destroy_brick.wav");
+	if(destroyBrick == NULL){
+		printf("Erro ao carregar destroyBrick.wav : %s\n",Mix_GetError());
+		return 1;
+	}
+	music = Mix_LoadMUS("main.mp3");
+	if(music == NULL){
+		printf("Erro ao carregar main.mp3:%s\n",Mix_GetError());
+		return 1;
+	}
+	Mix_PlayMusic(music,-1);
+
 	return 0;
 }

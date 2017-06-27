@@ -15,5 +15,9 @@ extern NPC plataform;
 extern int COLS;
 extern int ROWS;
 extern BRICK **brick;
+extern Mix_Chunk *sideHit;
+extern Mix_Chunk *destroyBrick;
+extern Mix_Music *music;
+
 
 #endif
