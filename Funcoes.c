@@ -64,7 +64,8 @@ void createBricks(int lvl){
    
     srand((unsigned int)time(NULL)); // random`s seed
     int i,j,y,x;                     // control variables
-    i = j = y = x = 0;               // x axis , y axis
+    i = j = x = 0; // x axis , y axis
+    y = 30; //espaço inicial em cima antes dos blocos para a bola quebrar varios de uma vez     
     brick=(BRICK **)malloc(ROWS * sizeof(BRICK *));
     
     for (i = 0; i < COLS ; ++i)    //create inner-array
@@ -78,10 +79,9 @@ void createBricks(int lvl){
     int randomLife;                  // number of lives of a block
     for(i=0 ; i < ROWS ; i++ ){
         //generate rows of n cols
-        y +=27 + 3; 
         for( j =0 ; j < COLS ; j++){
         //generate columns` of the row
-            randomLife = rand() % 3;
+            randomLife = 1 + rand() % 3;
 
             brick[i][j].existance=1;       // block`s check
             brick[i][j].lives=randomLife;  // block`s life
@@ -89,17 +89,27 @@ void createBricks(int lvl){
             brick[i][j].y= y; 
             brick[i][j].rect.x= x;
             brick[i][j].rect.y = y;
-            brick[i][j].rect.w = 55;
-            brick[i][j].rect.h = 27;
+            brick[i][j].rect.w = WIDTH/10;
+            brick[i][j].rect.h = 25;
             
-  
-            loadMedia(&brick[i][j].texture,"plataform.png");
-            x += 60;
+            //adicionei cores dependendo da vida
+            if(randomLife == 1){
+            	loadMedia(&brick[i][j].texture,"brick_green.png");
+            }else if(randomLife == 2){
+            	loadMedia(&brick[i][j].texture,"brick_yellow.png");
+            }else{
+            	loadMedia(&brick[i][j].texture,"brick_red.png");
+            }
+ 			
+            //loadMedia(&brick[i][j].texture,"plataform.png");
+            x += (WIDTH/10) + 3;
             if (x >= WIDTH)
                 break;
             else 
                 continue;
         }
+        //consertando o erro da bola atravessar alguns blocos da primeira linha
+        y +=27 + 3; 
         x = 0;
     }
 
@@ -151,12 +161,12 @@ void moveNPC(NPC *p){
       //      p->velX = -p->velX;
 		p->rect.y += p->velY;
         //		p->rect.x += p->velX;
-        if(p->rect.x >(plataform.rect.w /2 ) ){
+        if(p->rect.x >( plataform.rect.x + (plataform.rect.w) /2 ) ){
      //	p->velY = -p->velY;
      
 	//	p->rect.y += p->velY;
         
-        printf("direita\n\n");
+        	printf("direita\n\n");
         
         }
     }
@@ -167,7 +177,7 @@ void moveNPC(NPC *p){
 		p->rect.y = 0.5*HEIGHT;
 	}
     // hits bricks 
-    if(p->rect.y <= 6*brick[0][0].rect.h){
+    if(p->rect.y <= 6*brick[0][0].rect.h  + 30){
         trackCollision(p,3); 
     }
 }
@@ -181,20 +191,22 @@ int trackCollision(NPC *p,int opt){
             if(!brick[i][j].existance){
                 continue;             
             }else{
-               if((p->rect.y  > brick[i][j].rect.y -33   &&  p->rect.y  < brick[i][j].rect.y + 33 ) ){ 
+               if((p->rect.y  >= brick[i][j].rect.y -33   &&  p->rect.y  <= brick[i][j].rect.y + 33 ) ){ 
                    if(  (p->rect.x  > brick[i][j].rect.x - 55  &&  p->rect.x  < brick[i][j].rect.x + 55 ) ){
-                        if (!brick[i][j].lives){
-	                        brick[i][j].texture = NULL;     //Reset texture                         
-	                        brick[i][j].existance  = 0;     //Reset texture                         
-                        }else{
-                            brick[i][j].lives--; 
-                        //-p->velX;  //redirect ball 
-                       	//@TODO:ARRUMAR A PORRA QUE A DIRECAO TA BATENDO 
-	                        p->velY = (-1)*p->velY;
-	                    	p->rect.y += p->velY;
-						}
-                      //  p->velX =0 ;
-                       //  p->velY=0;                             brick[i][j].existance = 0;
+                   		//decrementa dps testa a existencia, antes a bolinha atravessava e nao rebatia
+                        brick[i][j].lives--; 
+                   		if(brick[i][j].lives == 0){
+                        	brick[i][j].texture = NULL;                            
+                        	brick[i][j].existance  = 0; 
+                        }
+                        else if(brick[i][j].lives == 2){
+                        	loadMedia(&brick[i][j].texture,"brick_yellow.png");
+                        }
+                        else if(brick[i][j].lives == 1){
+                        	loadMedia(&brick[i][j].texture,"brick_green.png");
+                        }
+ 						p->velY = (-1)*p->velY;
+	                    p->rect.y += p->velY;
                 	}
                	}
             }
