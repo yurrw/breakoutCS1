@@ -223,6 +223,9 @@ int trackCollision(NPC *p,int opt){
                         }
  						p->velY = (-1)*p->velY;
 	                    p->rect.y += p->velY;
+                        if(p->velX == 0){
+                            p->velX = 5;
+                        }
                 	}
                	}
             }
