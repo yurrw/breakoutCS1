@@ -52,7 +52,7 @@ int main(int argc, char *argv[]){
 				case SDL_KEYDOWN:
 					switch(event.key.keysym.sym){
 						case SDLK_ESCAPE:
-							play = 0;
+							menu();
 							break;
 						case SDLK_LEFT:
 							if(plataform.rect.x < WIDTH / 4  + WIDTH / 48){
