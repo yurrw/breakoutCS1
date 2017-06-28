@@ -42,6 +42,7 @@ int main(int argc, char *argv[]){
 	score.rect.w = 157;
 	score.rect.h = HEIGHT;
 	
+	createFontTexture(&fontTexture,gFont, 255, 0, 0);
 	createNPC(&ball,WIDTH/2,HEIGHT/2,20,19,5,5,"ball.png");
    	createBricks(lvl);
 
@@ -90,10 +91,13 @@ int main(int argc, char *argv[]){
             for (j =0; j < COLS;j++){
                 SDL_RenderCopy(gRenderer,brick[i][j].texture,NULL,&brick[i][j].rect);
 	        }
+        SDL_RenderCopy(gRenderer, fontTexture, NULL, NULL);
         SDL_RenderPresent(gRenderer);
 		SDL_Delay(16);
 	}
 	
+	TTF_CloseFont(gFont);
+	TTF_Quit();
 	SDL_DestroyRenderer(gRenderer);
 	SDL_DestroyWindow(gWindow);
 	SDL_DestroyTexture(ball.texture);
