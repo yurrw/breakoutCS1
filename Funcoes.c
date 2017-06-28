@@ -397,9 +397,9 @@ int menu() {
 	int mouseX, mouseY;
 	SDL_Texture *menuImg;
 	loadMedia(&menuImg,"menu.png");
-	SDL_RenderCopy(gRenderer,menuImg,NULL,NULL);
-	SDL_RenderPresent(gRenderer);
 	while(play){
+        SDL_RenderCopy(gRenderer,menuImg,NULL,NULL);
+        SDL_RenderPresent(gRenderer);
 		SDL_GetMouseState(&mouseX, &mouseY);
 		if(SDL_PollEvent(&event)){
 			switch(event.type){
@@ -422,16 +422,15 @@ int menu() {
 
 					else if(mouseX > WIDTH / 4 && mouseX < (WIDTH / 4) * 3 && mouseY > (int)(HEIGHT / 1.4) && mouseY < (int)(HEIGHT / 1.08))
 					{
-
-                            SDL_DestroyTexture(menuImg);
-                        
-						play = 0;
-
 						SDL_DestroyTexture(menuImg);
                         play = 0;
-
 						break;
 					}
+                    else if(mouseX > WIDTH / 4 && mouseX < (WIDTH / 4) * 3 && mouseY > (int)(HEIGHT / 2.38) && mouseY < (int)(HEIGHT / 1.56))
+                    {
+                        ranking();
+                        break;
+                    }
 			}
 		}
 	}
@@ -520,12 +519,36 @@ int gameOver() {
                             break;
                     }
                     break;
+            }
+        }
+    }
+    SDL_DestroyTexture(overImg);
+    return 0;
+}
+
+int ranking(){
+    SDL_Texture *rankingImg;
+    loadMedia(&rankingImg,"ranking.png");
+    SDL_RenderCopy(gRenderer,rankingImg,NULL,NULL);
+    SDL_RenderPresent(gRenderer);
+    while(play){
+        if(SDL_PollEvent(&event)){
+            switch(event.type){
+                case SDL_QUIT:
+                    play = 0;
+                    break;
+                case SDL_KEYDOWN:
+                    switch(event.key.keysym.sym){
+                        case SDLK_ESCAPE:
+                            return 0;
+                    }
+                    break;
                 
 
             
             }
         }
     }
-    SDL_DestroyTexture(overImg);
+    SDL_DestroyTexture(rankingImg);
     return 0;
 }
