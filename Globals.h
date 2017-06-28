@@ -9,9 +9,9 @@ extern SDL_Window *gWindow;
 extern SDL_Renderer *gRenderer;
 extern SDL_Event event;
 extern TTF_Font *gFont;
-extern SDL_Texture *fontTexture;
+extern SDL_Texture *scoreTexture;
 
-extern int score;
+extern int points;
 extern int vida;
 extern char vidaStr[10];
 extern char scoreStr[10];
