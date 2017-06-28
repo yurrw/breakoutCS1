@@ -502,3 +502,31 @@ int loadSound(){
 
 	return 0;
 }
+
+int gameOver() {
+    SDL_Texture *overImg;
+    loadMedia(&overImg,"gameover.png");
+    SDL_RenderCopy(gRenderer,overImg,NULL,NULL);
+    SDL_RenderPresent(gRenderer);
+    while(play){
+        if(SDL_PollEvent(&event)){
+            switch(event.type){
+                case SDL_QUIT:
+                    play = 0;
+                    break;
+                case SDL_KEYDOWN:
+                    switch(event.key.keysym.sym){
+                        case SDLK_ESCAPE:
+                            play = 0;
+                            break;
+                    }
+                    break;
+                
+
+            
+            }
+        }
+    }
+
+    return 0;
+}
