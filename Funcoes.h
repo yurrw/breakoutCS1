@@ -11,4 +11,5 @@ int menu();
 int loadSound();
 int createFontTexture(SDL_Texture **tex, TTF_Font *font, int r, int g, int b, char *string);
 int brickCollision(int n);
+int gameOver();
 #endif
