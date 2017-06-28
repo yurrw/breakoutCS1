@@ -13,4 +13,5 @@ int createFontTexture(SDL_Texture **tex, TTF_Font *font, int r, int g, int b, ch
 int brickCollision(int n);
 int gameOver();
 void nextlevel(NPC *b,int level);
+int ranking();
 #endif
