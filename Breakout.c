@@ -88,6 +88,7 @@ int main(int argc, char *argv[]){
 			}
 		}
 
+		if (vida <= 0) gameOver();
 		if (pointsForLife >= 1000)
 		{
 			vida++;
