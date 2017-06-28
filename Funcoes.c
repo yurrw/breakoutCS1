@@ -221,6 +221,14 @@ void moveNPC(NPC *p){
         }
  
     }
+    /*nextlevel*/
+        if (points == 25 * ROWS * COLS){
+        lvl++;
+         nextlevel(lvl);
+        printf("passou de fase\n");
+
+    }
+
     /*fim de jogo*/
 	if(p->rect.y > HEIGHT - p->rect.h ){
 		vida--;
@@ -232,7 +240,27 @@ void moveNPC(NPC *p){
         trackCollision(p,3); 
     }
 }
+    void nextlevel(int level){
+    printf("nextleve\n");
+    while(1){
+        if(SDL_PollEvent(&event)){
+            switch(event.type){
+                case SDL_QUIT:
+                   
+                    break;
+                case SDL_KEYDOWN:
+                    switch(event.key.keysym.sym){
+                        case  SDLK_KP_SPACE:
+                            printf("adsdas\n");
+                            break;
+                    }
+                    break;
 
+            }
+        }
+    }
+
+}
 int trackCollision(NPC *p,int opt){
     int i,j;
    
