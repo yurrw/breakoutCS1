@@ -10,6 +10,7 @@
 int main(int argc, char *argv[]){
 	int i, j; // control
 	IMAG limite, score;
+	SDL_Rect scoreRect;
 
 	if(argc > 1){
 		if(argc < 3 || argc > 3){
@@ -42,7 +43,10 @@ int main(int argc, char *argv[]){
 	score.rect.w = 157;
 	score.rect.h = HEIGHT;
 	
-	createFontTexture(&fontTexture,gFont, 255, 0, 0);
+	//createFontTexture(&scoreTexture,gFont, 255, 0, 0);
+	//SDL_QueryTexture(scoreTexture, NULL, NULL, &scoreRect.w, &scoreRect.h);
+	//scoreRect.x = 0;
+	scoreRect.y = 0;
 	createNPC(&ball,WIDTH/2,HEIGHT/2,20,19,5,5,"ball.png");
    	createBricks(lvl);
 
@@ -78,7 +82,12 @@ int main(int argc, char *argv[]){
 		}
 
 		moveNPC(&ball);
-        
+		sprintf(scoreStr, "%d", points);
+        createFontTexture(&scoreTexture,gFont, 255, 0, 0);
+        SDL_QueryTexture(scoreTexture, NULL, NULL, &scoreRect.w, &scoreRect.h);
+		scoreRect.x = WIDTH / 12;
+		scoreRect.y = HEIGHT / 8;
+
 		SDL_SetRenderDrawColor(gRenderer,0,0,0,0);
 		SDL_RenderClear(gRenderer);
 		//SDL_RenderCopy(borda);
@@ -91,7 +100,7 @@ int main(int argc, char *argv[]){
             for (j =0; j < COLS;j++){
                 SDL_RenderCopy(gRenderer,brick[i][j].texture,NULL,&brick[i][j].rect);
 	        }
-        SDL_RenderCopy(gRenderer, fontTexture, NULL, NULL);
+        SDL_RenderCopy(gRenderer, scoreTexture, NULL, &scoreRect);
         SDL_RenderPresent(gRenderer);
 		SDL_Delay(16);
 	}
