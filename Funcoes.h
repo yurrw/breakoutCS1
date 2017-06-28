@@ -9,6 +9,6 @@ void createBricks(int lvl);
 int  trackCollision(NPC *p,int opt);
 int menu();
 int loadSound();
-int createFontTexture(SDL_Texture **tex, TTF_Font *font, int r, int g, int b);
+int createFontTexture(SDL_Texture **tex, TTF_Font *font, int r, int g, int b, char *string);
 int brickCollision(int n);
 #endif
