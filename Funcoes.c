@@ -42,7 +42,23 @@ int init(char w[],char h[]){
 		return 1;
 	}
 
+    if( TTF_Init() == -1 )  {
+        printf( "Erro ao iniciar o controlador de fontes: %s\n", TTF_GetError() );
+        return  1;
+    }
+
+    gFont = TTF_OpenFont("FSEX300.ttf", 22);
+
 	return 0;
+
+}
+
+int createFontTexture(SDL_Texture **tex, TTF_Font *font, int r, int g, int b)
+{
+    SDL_Color color = { r, g, b };
+    SDL_Surface * surface = TTF_RenderText_Solid(font, scoreStr, color);
+    *tex = SDL_CreateTextureFromSurface(gRenderer, surface);
+    return 0;
 
 }
 
@@ -377,10 +393,7 @@ int menu() {
 			}
 		}
 	}
-	SDL_DestroyRenderer(gRenderer);
-	SDL_DestroyWindow(gWindow);
-	SDL_DestroyTexture(menuImg);
-	SDL_Quit();
+
 	return 0;
 }
 
