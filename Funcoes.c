@@ -247,6 +247,7 @@ void moveNPC(NPC *p){
         b->rect.x=WIDTH/2;
         b->rect.y=HEIGHT/2;
         pointsTMP =0;
+        free(brick);
         createBricks(lvl);
 
         printf("nextleve\n");
@@ -378,13 +379,16 @@ int trackCollision(NPC *p,int opt){
                         if(p->velX == 0){
                             p->velX = 3;
                             p->velY  = -p->velY;
-                                 p->rect.y += p->velY;
-                            printf("%d",p->velY);
+                            p->rect.y += p->velY;
 
                         }
 
                         if(p->velY ==0){
                             p->velY=3;
+                            p->velX = -p->velX;
+                            p->rect.x += p->velX;
+
+                    
                         }
                     }
                 }
