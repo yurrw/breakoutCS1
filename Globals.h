@@ -12,6 +12,7 @@ extern TTF_Font *gFont;
 extern SDL_Texture *scoreTexture;
 extern SDL_Texture *vidaTexture;
 extern SDL_Texture *nomeTexture;
+extern SDL_Texture *rankTexture;
 
 extern int points;
 extern int pointsForLife;
@@ -22,6 +23,7 @@ extern char scoreStr[10];
 extern char nome[40];
 
 extern NPC ball;
+extern RK rkdados[6];
 extern NPC plataform;
 extern int COLS;
 extern int ROWS;

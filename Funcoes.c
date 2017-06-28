@@ -478,7 +478,7 @@ int brickCollision(int n){
             }
         }
     }
-
+return 1;
 }
 int loadSound(){
 	sideHit = Mix_LoadWAV("side_hit.wav");
@@ -502,6 +502,7 @@ int loadSound(){
 }
 
 int gameOver() {
+    writeRank(nome,points);
     SDL_Texture *overImg;
     loadMedia(&overImg,"gameover.png");
     SDL_RenderCopy(gRenderer,overImg,NULL,NULL);
@@ -528,6 +529,8 @@ int gameOver() {
 
 int ranking(){
     SDL_Texture *rankingImg;
+    
+    showRankT();
     loadMedia(&rankingImg,"ranking.png");
     SDL_RenderCopy(gRenderer,rankingImg,NULL,NULL);
     SDL_RenderPresent(gRenderer);
@@ -552,3 +555,100 @@ int ranking(){
     SDL_DestroyTexture(rankingImg);
     return 0;
 }
+void showRankT(){
+   
+    printf("aqui\n");
+    IMAG rRank;
+    SDL_Rect rankRect; 
+    FILE *rankbin;
+    int i=0;
+    rankbin = fopen("rank.bin","r+b"); //Read actual rank
+  
+    if (rankbin == NULL){
+        fputs("Erro ao abrir rank",stderr);
+        exit(1);
+    }else{
+        fseek(rankbin,0,SEEK_SET); //set pointer to the beggining
+        for (i =0; i < 5; i++){
+
+               fread(&rkdados[i].name, sizeof(char), 4, rankbin);
+               fread(&rkdados[i].pontuacao, sizeof(int),1, rankbin);
+       
+             }
+        for(i=0;i<5;i++){
+            printf("%s %d\n",rkdados[i].name,rkdados[i].pontuacao);
+        }
+        //PRINTAR O RKDADOS
+        rRank.rect.x = (WIDTH/4) -10;
+        rRank.rect.y =0;
+        rRank.rect.w = 300;
+        rRank.rect.h = 400;
+        createFontTexture(&rankTexture,gFont,100,100,100,rkdados[1].name);
+        SDL_QueryTexture(rankTexture,NULL,NULL,&rankRect.w,&rankRect.h);
+        rankRect.x = 300;
+        rankRect.y = 300;
+        SDL_RenderCopy(gRenderer,rankTexture,NULL,&rankRect);
+
+        fclose(rankbin);        
+    }
+    
+        
+}
+int writeRank(char usr[],int pontuacao){
+    
+    FILE *rankbin;
+    int i=0;
+    rankbin = fopen("rank.bin","rw+b"); //Read actual rank
+  
+    if (rankbin == NULL){
+        fputs("Erro ao abrir rank",stderr);
+        exit(1);
+    }else{
+        fseek(rankbin,0,SEEK_SET); //set pointer to the beggining
+        for (i =0; i < 5; i++){
+
+               fread(&rkdados[i].name, sizeof(char), 4, rankbin);
+               fread(&rkdados[i].pontuacao, sizeof(int),1, rankbin);
+         }
+            
+            for(i=0;i<3;i++)
+                rkdados[5].name[i] =  usr[i];
+            rkdados[5].pontuacao = pontuacao ;
+        qsort(rkdados,6,sizeof(RK),cmp); 
+        fseek(rankbin,0,SEEK_SET); //set pointer to the beggining
+        for ( i =0 ; i < 5; i++){
+               fwrite (&rkdados[i].name , sizeof(char), 4,rankbin);
+               fwrite (&rkdados[i].pontuacao, sizeof(int), 1, rankbin);
+        }
+      
+        fseek(rankbin,0,SEEK_SET); //set pointer to the beggining
+        for (i =0; i < 5; i++){
+
+               fread(&rkdados[i].name, sizeof(char), 4, rankbin);
+               fread(&rkdados[i].pontuacao, sizeof(int),1, rankbin);
+         }
+        printf("tega\n");
+        for(i =0; i < 5; i++){
+            printf("%s %d\n",rkdados[i].name,rkdados[i].pontuacao);
+        }
+ 
+    
+    fclose(rankbin);
+    }
+
+
+
+
+
+/*
+*/
+    return 1;
+}
+int cmp(const void * a, const void * b)
+{
+        
+        RK *pont1 = (RK *)a;
+        RK *pont2 = (RK *)b;
+       return ( pont2->pontuacao - pont1->pontuacao );
+}
+

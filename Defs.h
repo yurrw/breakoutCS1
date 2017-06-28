@@ -12,6 +12,10 @@ typedef struct _NPC{
 	SDL_Texture *texture;
 	SDL_Rect rect;
 }NPC;
+typedef struct _RANK{
+	char name[4];
+    int pontuacao;
+}RK;
 
 typedef struct _BRICKS{
     int existance;

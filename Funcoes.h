@@ -14,4 +14,7 @@ int brickCollision(int n);
 int gameOver();
 void nextlevel(NPC *b,int level);
 int ranking();
+int writeRank(char usr[],int pontuacao);
+int cmp(const void * a, const void * b);
+void showRankT();
 #endif
