@@ -10,8 +10,10 @@ extern SDL_Renderer *gRenderer;
 extern SDL_Event event;
 extern TTF_Font *gFont;
 extern SDL_Texture *scoreTexture;
+extern SDL_Texture *vidaTexture;
 
 extern int points;
+extern int pointsForLife;
 extern int vida;
 extern char vidaStr[10];
 extern char scoreStr[10];
