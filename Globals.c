@@ -20,6 +20,7 @@ SDL_Window *gWindow;
 SDL_Renderer *gRenderer;
 SDL_Event event;
 TTF_Font *gFont;
+SDL_Texture *fontTexture;
 NPC ball;
 NPC plataform;
 BRICK **brick;
