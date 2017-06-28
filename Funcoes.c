@@ -181,11 +181,10 @@ void moveNPC(NPC *p){
     
     int teste;
     /*plataforma*/
-    //@TODO = corrigir direcao da bola depois de bater na plataforma
-    //          desmembrar esse if pra por corretamente
+   
     if(p->rect.y > 0.9*HEIGHT-p->rect.w && distance < maxDistance && distance > minDistance && dx > 0 && p->velY > 0){
        
-            teste =  (( ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /25) * p->velX ) %300); 
+            teste =  (( ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /25) * p->velX ) %75); 
         if(p->rect.x >( plataform.rect.x + (plataform.rect.w) /2 ) ){
             p->velY = -p->velY;
             p->rect.y += p->velY;
@@ -400,9 +399,16 @@ int trackCollision(NPC *p,int opt){
 int menu() {
 	int mouseX, mouseY;
 	SDL_Texture *menuImg;
+    SDL_Texture *nomeGrupo;
+    SDL_Rect nomesRect;
+    char nomesGrupo[] = {"Rodrigo Studart Samuel Sousa Yuri Medeiros"};
+
 	loadMedia(&menuImg,"menu.png");
+    createFontTexture(&nomeGrupo,gFont,0,0,0,nomesGrupo);
+    SDL_QueryTexture(nomeGrupo, NULL, NULL, &nomesRect.w, &nomesRect.h);
 	while(play){
         SDL_RenderCopy(gRenderer,menuImg,NULL,NULL);
+        SDL_RenderCopy(gRenderer,nomeGrupo,NULL,&nomesRect);
         SDL_RenderPresent(gRenderer);
 		SDL_GetMouseState(&mouseX, &mouseY);
 		if(SDL_PollEvent(&event)){
