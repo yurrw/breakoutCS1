@@ -89,12 +89,13 @@ int main(int argc, char *argv[]){
 		}
 
 		if (vida <= 0) gameOver();
-		if (pointsForLife >= 1000)
+
+		moveNPC(&ball);
+		if (pointsForLife >= 10000)
 		{
 			vida = vida +1;
-			pointsForLife -= 1000;
+			pointsForLife -= 10000;
 		}
-		moveNPC(&ball);
 		sprintf(scoreStr, "%d", points);
 		sprintf(vidaStr, "%d", vida);
         createFontTexture(&scoreTexture,gFont, 255, 0, 0, scoreStr);

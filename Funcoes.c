@@ -222,7 +222,7 @@ void moveNPC(NPC *p){
     }
     /*nextlevel*/
     printf("%d\n",pointsTMP );
-        if (pointsTMP == 25 * ROWS * COLS){
+        if (pointsTMP == 100 * ROWS * COLS){
         lvl++;
         points+=1000;
         nextlevel(p,lvl);
@@ -269,9 +269,9 @@ int trackCollision(NPC *p,int opt){
                         //decrementa dps testa a existencia, antes a bolinha atravessava e nao rebatia
                         brick[i][j].lives--; 
                         if(brick[i][j].lives == 0){
-                            points +=25;
-                            pointsTMP +=25;
-                            pointsForLife += 25;
+                            points +=100;
+                            pointsTMP +=100;
+                            pointsForLife += 100;
                             Mix_PlayChannel(-1,destroyBrick,0);
                             brick[i][j].texture = NULL;                            
                             brick[i][j].existance  = 0; 
@@ -534,8 +534,8 @@ int gameOver() {
 int ranking(){
     SDL_Texture *rankingImg;
     
-    showRankT();
     loadMedia(&rankingImg,"ranking.png");
+    showRankT();
     SDL_RenderCopy(gRenderer,rankingImg,NULL,NULL);
     SDL_RenderPresent(gRenderer);
     while(play){
@@ -587,11 +587,8 @@ void showRankT(){
         rRank.rect.y =0;
         rRank.rect.w = 300;
         rRank.rect.h = 400;
-        createFontTexture(&rankTexture,gFont,100,100,100,rkdados[1].name);
-        SDL_QueryTexture(rankTexture,NULL,NULL,&rankRect.w,&rankRect.h);
         rankRect.x = 300;
         rankRect.y = 300;
-        SDL_RenderCopy(gRenderer,rankTexture,NULL,&rankRect);
 
         fclose(rankbin);        
     }
