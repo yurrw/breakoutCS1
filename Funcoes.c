@@ -53,10 +53,10 @@ int init(char w[],char h[]){
 
 }
 
-int createFontTexture(SDL_Texture **tex, TTF_Font *font, int r, int g, int b)
+int createFontTexture(SDL_Texture **tex, TTF_Font *font, int r, int g, int b, char *string)
 {
     SDL_Color color = { r, g, b };
-    SDL_Surface * surface = TTF_RenderText_Solid(font, scoreStr, color);
+    SDL_Surface * surface = TTF_RenderText_Solid(font, string, color);
     *tex = SDL_CreateTextureFromSurface(gRenderer, surface);
     return 0;
 
@@ -223,7 +223,7 @@ void moveNPC(NPC *p){
     }
     /*fim de jogo*/
 	if(p->rect.y > HEIGHT - p->rect.h ){
-		//hit`s bottom
+		vida--;
 		p->rect.x = 0.5*WIDTH;
 		p->rect.y = 0.5*HEIGHT;
 	}
@@ -249,7 +249,8 @@ int trackCollision(NPC *p,int opt){
                         //decrementa dps testa a existencia, antes a bolinha atravessava e nao rebatia
                         brick[i][j].lives--; 
                         if(brick[i][j].lives == 0){
-                         points +=25;
+                            points +=25;
+                            pointsForLife += 25;
                             Mix_PlayChannel(-1,destroyBrick,0);
                             brick[i][j].texture = NULL;                            
                             brick[i][j].existance  = 0; 
