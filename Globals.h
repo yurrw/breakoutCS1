@@ -15,6 +15,7 @@ extern SDL_Texture *nomeTexture;
 
 extern int points;
 extern int pointsForLife;
+extern int pointsTMP;
 extern int vida;
 extern char vidaStr[10];
 extern char scoreStr[10];

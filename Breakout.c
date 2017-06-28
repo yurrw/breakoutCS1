@@ -54,7 +54,7 @@ int main(int argc, char *argv[]){
 	//SDL_QueryTexture(scoreTexture, NULL, NULL, &scoreRect.w, &scoreRect.h);
 	//scoreRect.x = 0;
 	scoreRect.y = 0;
-	createNPC(&ball,WIDTH/2,HEIGHT/2,20,19,5,5,"ball.png");
+	createNPC(&ball,WIDTH/2,HEIGHT/2,20,19,0,5,"ball.png");
    	createBricks(lvl);
 
 	createNPC(&plataform,WIDTH/2,0.9*HEIGHT,200,25,23,23,"plataform.png");
