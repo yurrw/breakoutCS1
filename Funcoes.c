@@ -186,7 +186,7 @@ void moveNPC(NPC *p){
     //          desmembrar esse if pra por corretamente
     if(p->rect.y > 0.9*HEIGHT-p->rect.w && distance < maxDistance && distance > minDistance && dx > 0 && p->velY > 0){
        
-            teste =  (( ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /25) * p->velX ) %100); 
+            teste =  (( ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /25) * p->velX ) %100)/5; 
         if(p->rect.x >( plataform.rect.x + (plataform.rect.w) /2 ) ){
             p->velY = -p->velY;
             p->rect.y += p->velY;
@@ -305,13 +305,13 @@ int trackCollision(NPC *p,int opt){
                                if (xsize > ysize) {
                         if (ballcentery > brickcentery) {
                             // Bottom
-                             p->rect.y += ysize - 1; // Move out of collision
+                             //p->rect.y += ysize; // Move out of collision
                          printf("b\n");
                           //  BallBrickResponse(3);
                        brickCollision(3); 
                         } else {
                             // Top
-                            p->rect.y -= ysize + 1; // Move out of collision
+                            p->rect.y -= ysize; // Move out of collision
                          //   BallBrickResponse(1);
                             brickCollision(1);
                             printf("t\n");
@@ -319,14 +319,14 @@ int trackCollision(NPC *p,int opt){
                     } else {
                         if (ballcenterx < brickcenterx) {
                             // Leftb
-                            p->rect.x -= xsize + 1; // Move out of collision
+                            p->rect.x -= xsize; // Move out of collision
                          printf("l\n");
                          brickCollision(0);
                          //   BallBrickResponse(0);
                         } else {
                             // Right
                          printf("r\n");
-                            p->rect.x += xsize + 1; // Move out of collision
+                            p->rect.x += xsize; // Move out of collision
                       //      BallBrickResponse(2);
                          brickCollision(2);
                         }
@@ -356,10 +356,14 @@ int trackCollision(NPC *p,int opt){
                  //       p->rect.y += p->velY;
                         if(p->velX == 0){
                             p->velX = 3;
+                            p->velY  = -p->velY;
+                                 p->rect.y += p->velY;
+                            printf("%d",p->velY);
+
                         }
 
                         if(p->velY ==0){
-                            p->velY==3;
+                            p->velY=3;
                         }
                     }
                 }
