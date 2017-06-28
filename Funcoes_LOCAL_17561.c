@@ -422,14 +422,9 @@ int menu() {
 
 					else if(mouseX > WIDTH / 4 && mouseX < (WIDTH / 4) * 3 && mouseY > (int)(HEIGHT / 1.4) && mouseY < (int)(HEIGHT / 1.08))
 					{
-<<<<<<< HEAD
                             SDL_DestroyTexture(menuImg);
                         
 						play = 0;
-=======
-						SDL_DestroyTexture(menuImg);
-                        play = 0;
->>>>>>> refs/remotes/origin/master
 						break;
 					}
 			}
@@ -526,7 +521,6 @@ int gameOver() {
             }
         }
     }
-<<<<<<< HEAD
     
 
 
@@ -534,8 +528,6 @@ int gameOver() {
 
 
 
-=======
->>>>>>> refs/remotes/origin/master
     SDL_DestroyTexture(overImg);
     return 0;
 }

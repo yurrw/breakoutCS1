@@ -104,7 +104,7 @@ void createBricks(int lvl){
         //generate rows of n cols
         for( j =0 ; j < COLS ; j++){
         //generate columns` of the row
-            randomLife = 1 + rand() % lvl;
+            randomLife = 1 + rand() % 3;
 
             brick[i][j].existance=1;       // block`s check
             brick[i][j].lives=randomLife;  // block`s life
@@ -116,13 +116,14 @@ void createBricks(int lvl){
             brick[i][j].rect.h = 35;
             
             //adicionei cores dependendo da vida
-            if(randomLife == 1 || (lvl == 1 && randomLife !=1)){
+            if(randomLife == 1){
                 loadMedia(&brick[i][j].texture,"brick_green.png");
-            }else if(randomLife == 2|| (lvl == 2 && randomLife !=2)){
+            }else if(randomLife == 2){
                 loadMedia(&brick[i][j].texture,"brick_yellow.png");
             }else{
                 loadMedia(&brick[i][j].texture,"brick_red.png");
             }
+            
             //loadMedia(&brick[i][j].texture,"plataform.png");
             x = x + (WIDTH/10) + 3;
             if (x >= WIDTH - 30)
@@ -185,7 +186,7 @@ void moveNPC(NPC *p){
     //          desmembrar esse if pra por corretamente
     if(p->rect.y > 0.9*HEIGHT-p->rect.w && distance < maxDistance && distance > minDistance && dx > 0 && p->velY > 0){
        
-            teste =  (( ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /25) * p->velX ) %300); 
+            teste =  (( ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /25) * p->velX ) %100)/5; 
         if(p->rect.x >( plataform.rect.x + (plataform.rect.w) /2 ) ){
             p->velY = -p->velY;
             p->rect.y += p->velY;
@@ -221,11 +222,9 @@ void moveNPC(NPC *p){
  
     }
     /*nextlevel*/
-    printf("%d\n",pointsTMP );
-        if (pointsTMP == 25 * ROWS * COLS){
+        if (points == 25 * ROWS * COLS){
         lvl++;
-        points+=1000;
-        nextlevel(p,lvl);
+         nextlevel(lvl);
         printf("passou de fase\n");
 
     }
@@ -241,15 +240,25 @@ void moveNPC(NPC *p){
         trackCollision(p,3); 
     }
 }
-    void nextlevel(NPC *b,int level){
-        b->velX =0;
-        b->velY =5;
-        b->rect.x=WIDTH/2;
-        b->rect.y=HEIGHT/2;
-        pointsTMP =0;
-        createBricks(lvl);
+    void nextlevel(int level){
+    printf("nextleve\n");
+    while(1){
+        if(SDL_PollEvent(&event)){
+            switch(event.type){
+                case SDL_QUIT:
+                   
+                    break;
+                case SDL_KEYDOWN:
+                    switch(event.key.keysym.sym){
+                        case  SDLK_KP_SPACE:
+                            printf("adsdas\n");
+                            break;
+                    }
+                    break;
 
-        printf("nextleve\n");
+            }
+        }
+    }
 
 }
 int trackCollision(NPC *p,int opt){
@@ -269,7 +278,6 @@ int trackCollision(NPC *p,int opt){
                         brick[i][j].lives--; 
                         if(brick[i][j].lives == 0){
                             points +=25;
-                            pointsTMP +=25;
                             pointsForLife += 25;
                             Mix_PlayChannel(-1,destroyBrick,0);
                             brick[i][j].texture = NULL;                            
@@ -422,14 +430,7 @@ int menu() {
 
 					else if(mouseX > WIDTH / 4 && mouseX < (WIDTH / 4) * 3 && mouseY > (int)(HEIGHT / 1.4) && mouseY < (int)(HEIGHT / 1.08))
 					{
-<<<<<<< HEAD
-                            SDL_DestroyTexture(menuImg);
-                        
 						play = 0;
-=======
-						SDL_DestroyTexture(menuImg);
-                        play = 0;
->>>>>>> refs/remotes/origin/master
 						break;
 					}
 			}
@@ -526,16 +527,6 @@ int gameOver() {
             }
         }
     }
-<<<<<<< HEAD
-    
 
-
-
-
-
-
-=======
->>>>>>> refs/remotes/origin/master
-    SDL_DestroyTexture(overImg);
     return 0;
 }
