@@ -72,7 +72,7 @@ void createBricks(int lvl){
     i = j = 0; // x axis , y axis
     x = (WIDTH / 4);
 
-    y = 30; //espaço inicial em cima antes dos blocos para a bola quebrar varios de uma vez     
+    y = 35; //espaço inicial em cima antes dos blocos para a bola quebrar varios de uma vez     
     brick=(BRICK **)malloc(ROWS * sizeof(BRICK *));
     
     for (i = 0; i < COLS ; ++i)    //create inner-array
@@ -97,7 +97,7 @@ void createBricks(int lvl){
             brick[i][j].rect.x= x;
             brick[i][j].rect.y = y;
             brick[i][j].rect.w = WIDTH/10;
-            brick[i][j].rect.h = 25;
+            brick[i][j].rect.h = 40;
             
             //adicionei cores dependendo da vida
             if(randomLife == 1){
@@ -116,7 +116,7 @@ void createBricks(int lvl){
                 continue;
         }
         //consertando o erro da bola atravessar alguns blocos da primeira linha
-        y +=27 + 3; 
+        y +=30 + 5; 
         x = (WIDTH / 4);
     }
 
@@ -241,6 +241,94 @@ int trackCollision(NPC *p,int opt){
                         else if(brick[i][j].lives == 1){
                         	loadMedia(&brick[i][j].texture,"brick_green.png");
                         }
+
+                        //colliding
+
+                        float ballcentery = p->rect.y + 0.5f*p->rect.h;
+                        float ballcenterx = p->rect.x + 0.5f*p->rect.w;
+                        printf("%d",p->rect.h); 
+                        float brickcenterx = brick[i][j].rect.x + 0.5f*brick[i][j].rect.w;
+                        float brickcentery = brick[i][j].rect.y + 0.5f*brick[i][j].rect.h;
+                        float ymin = 0;
+                         if (brick[i][j].rect.y > p->rect.y) {
+                                ymin = brick[i][j].rect.y;
+                         } else {
+                                 ymin = p->rect.y;
+                         }
+
+
+                                   float ymax = 0;
+                    if (brick[i][j].rect.y+brick[i][j].rect.h < p->rect.y+p->rect.h) {
+                        ymax = brick[i][j].rect.y+brick[i][j].rect.h;
+                    } else {
+                        ymax = p->rect.y+p->rect.h;
+                    }
+
+
+                    float ysize =  ymax -ymin;
+                         // Calculate xsize
+                    float xmin = 0;
+                    if (brick[i][j].rect.x > p->rect.x) {
+                        xmin = brick[i][j].rect.x;
+                    } else {
+                        xmin = p->rect.x;
+                    }
+
+                    float xmax = 0;
+                    if (brick[i][j].rect.x+brick[i][j].rect.w < p->rect.x+p->rect.w) {
+                        xmax = brick[i][j].rect.x+brick[i][j].rect.w;
+                    } else {
+                        xmax = p->rect.x+p->rect.w;
+                    }
+
+                    float xsize = xmax - xmin;
+ 
+                               if (xsize > ysize) {
+                        if (ballcentery > brickcentery) {
+                            // Bottom
+                             p->rect.y += ysize + 0.01f; // Move out of collision
+                         printf("b\n");
+                          //  BallBrickResponse(3);
+                        } else {
+                            // Top
+                            p->rect.y -= ysize + 0.01f; // Move out of collision
+                         //   BallBrickResponse(1);
+                         printf("t\n");
+                        }
+                    } else {
+                        if (ballcenterx < brickcenterx) {
+                            // Leftb
+                            p->rect.x -= xsize + 0.01f; // Move out of collision
+                         printf("l\n");
+                         //   BallBrickResponse(0);
+                        } else {
+                            // Right
+                         printf("r\n");
+                            p->rect.x += xsize + 0.01f; // Move out of collision
+                      //      BallBrickResponse(2);
+                        }
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  						p->velY = (-1)*p->velY;
 	                    p->rect.y += p->velY;
                         if(p->velX == 0){
