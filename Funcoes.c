@@ -108,22 +108,22 @@ void createBricks(int lvl){
 
             brick[i][j].existance=1;       // block`s check
             brick[i][j].lives=randomLife;  // block`s life
-            brick[i][j].x= 0;
-            brick[i][j].y= 0; 
+            brick[i][j].x= x;
+            brick[i][j].y= y; 
             brick[i][j].rect.x= x;
             brick[i][j].rect.y = y;
             brick[i][j].rect.w = WIDTH/10;
-            brick[i][j].rect.h = 40;
+            brick[i][j].rect.h = 35;
             
             //adicionei cores dependendo da vida
             if(randomLife == 1){
-            	loadMedia(&brick[i][j].texture,"brick_green.png");
+                loadMedia(&brick[i][j].texture,"brick_green.png");
             }else if(randomLife == 2){
-            	loadMedia(&brick[i][j].texture,"brick_yellow.png");
+                loadMedia(&brick[i][j].texture,"brick_yellow.png");
             }else{
-            	loadMedia(&brick[i][j].texture,"brick_red.png");
+                loadMedia(&brick[i][j].texture,"brick_red.png");
             }
- 			
+            
             //loadMedia(&brick[i][j].texture,"plataform.png");
             x = x + (WIDTH/10) + 3;
             if (x >= WIDTH - 30)
@@ -132,12 +132,12 @@ void createBricks(int lvl){
                 continue;
         }
         //consertando o erro da bola atravessar alguns blocos da primeira linha
-        y +=30 + 5; 
+        y +=35; 
         x = (WIDTH / 4);
     }
 
 
- };
+ }
 
 void createNPC(NPC *p,int x,int y,int w,int h,int velX,int velY,char path[]){
 
@@ -180,40 +180,40 @@ void moveNPC(NPC *p){
   
 	}
     
-	int teste;
+    int teste;
     /*plataforma*/
     //@TODO = corrigir direcao da bola depois de bater na plataforma
     //          desmembrar esse if pra por corretamente
-	if(p->rect.y > 0.9*HEIGHT-p->rect.w && distance < maxDistance && distance > minDistance && dx > 0 && p->velY > 0){
+    if(p->rect.y > 0.9*HEIGHT-p->rect.w && distance < maxDistance && distance > minDistance && dx > 0 && p->velY > 0){
        
-            teste =  (( ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /25) * p->velX ) %100)/2; 
+            teste =  (( ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /25) * p->velX ) %100); 
         if(p->rect.x >( plataform.rect.x + (plataform.rect.w) /2 ) ){
-     	    p->velY = -p->velY;
-		    p->rect.y += p->velY;
+            p->velY = -p->velY;
+            p->rect.y += p->velY;
                 p->velX = teste;
                  p->rect.x +=  teste  == 0 ? p->velX : teste ;
             if(p->velX < 0 ){
-            	p->velX = - p->velX;
-		        p->rect.x += p->velX;
+                p->velX = - p->velX;
+                p->rect.x += p->velX;
             }
         
         }else if(p->rect.x < ( plataform.rect.x + (plataform.rect.w) /2 ) ){
             p->velY = -p->velY;
-		    p->rect.y += p->velY;
+            p->rect.y += p->velY;
             p->velX =  teste;
             p->rect.x +=   teste  == 0 ? p->velX : teste;
 
         if(p->velX > 0 ){
-            	p->velX = - p->velX ;
-		        p->rect.x += p->velX;
+                p->velX = - p->velX ;
+                p->rect.x += p->velX;
             }
             
         }else{
             p->velY = -p->velY;
-		    p->rect.y += p->velY;
+            p->rect.y += p->velY;
             if(p->velX > 0 ){
-            	p->velX = 0;
-		        p->rect.x += p->velX;
+                p->velX = 0;
+                p->rect.x += p->velX;
             }
  
 
@@ -242,31 +242,33 @@ int trackCollision(NPC *p,int opt){
             if(!brick[i][j].existance){
                 continue;             
             }else{
-               if((p->rect.y  >= brick[i][j].rect.y -33   &&  p->rect.y  <= brick[i][j].rect.y + 33 ) ){ 
-                   if(  (p->rect.x  > brick[i][j].rect.x - 55  &&  p->rect.x  < brick[i][j].rect.x + 55 ) ){
-                   		//decrementa dps testa a existencia, antes a bolinha atravessava e nao rebatia
+               if((p->rect.y  >= brick[i][j].rect.y - 35
+                           &&  p->rect.y  <= brick[i][j].rect.y + 35 ) ){ 
+                   if(  (p->rect.x  >= brick[i][j].rect.x - brick[i][j].rect.w  &&
+                               p->rect.x  <= brick[i][j].rect.x + brick[i][j].rect.w ) ){
+                        //decrementa dps testa a existencia, antes a bolinha atravessava e nao rebatia
                         brick[i][j].lives--; 
-                   		if(brick[i][j].lives == 0){
-                            points +=25;
-                   			Mix_PlayChannel(-1,destroyBrick,0);
-                        	brick[i][j].texture = NULL;                            
-                        	brick[i][j].existance  = 0; 
+                        if(brick[i][j].lives == 0){
+                         points +=25;
+                            Mix_PlayChannel(-1,destroyBrick,0);
+                            brick[i][j].texture = NULL;                            
+                            brick[i][j].existance  = 0; 
                         }
                         else if(brick[i][j].lives == 2){
-                        	loadMedia(&brick[i][j].texture,"brick_yellow.png");
+                            loadMedia(&brick[i][j].texture,"brick_yellow.png");
                         }
                         else if(brick[i][j].lives == 1){
-                        	loadMedia(&brick[i][j].texture,"brick_green.png");
+                            loadMedia(&brick[i][j].texture,"brick_green.png");
                         }
 
                         //colliding
 
-                        float ballcentery = p->rect.y + 0.5f*p->rect.h;
-                        float ballcenterx = p->rect.x + 0.5f*p->rect.w;
+                        int ballcentery = p->rect.y + 0.5*p->rect.h;
+                        int ballcenterx = p->rect.x + 0.5*p->rect.w;
                         printf("%d",p->rect.h); 
-                        float brickcenterx = brick[i][j].rect.x + 0.5f*brick[i][j].rect.w;
-                        float brickcentery = brick[i][j].rect.y + 0.5f*brick[i][j].rect.h;
-                        float ymin = 0;
+                        int brickcenterx = brick[i][j].rect.x + 0.5*brick[i][j].rect.w;
+                        int brickcentery = brick[i][j].rect.y + 0.5*brick[i][j].rect.h;
+                        int ymin = 0;
                          if (brick[i][j].rect.y > p->rect.y) {
                                 ymin = brick[i][j].rect.y;
                          } else {
@@ -274,7 +276,7 @@ int trackCollision(NPC *p,int opt){
                          }
 
 
-                                   float ymax = 0;
+                                   int ymax = 0;
                     if (brick[i][j].rect.y+brick[i][j].rect.h < p->rect.y+p->rect.h) {
                         ymax = brick[i][j].rect.y+brick[i][j].rect.h;
                     } else {
@@ -303,26 +305,30 @@ int trackCollision(NPC *p,int opt){
                                if (xsize > ysize) {
                         if (ballcentery > brickcentery) {
                             // Bottom
-                             p->rect.y += ysize + 0.01f; // Move out of collision
+                             p->rect.y += ysize - 1; // Move out of collision
                          printf("b\n");
                           //  BallBrickResponse(3);
+                       brickCollision(3); 
                         } else {
                             // Top
-                            p->rect.y -= ysize + 0.01f; // Move out of collision
+                            p->rect.y -= ysize + 1; // Move out of collision
                          //   BallBrickResponse(1);
-                         printf("t\n");
+                            brickCollision(1);
+                            printf("t\n");
                         }
                     } else {
                         if (ballcenterx < brickcenterx) {
                             // Leftb
-                            p->rect.x -= xsize + 0.01f; // Move out of collision
+                            p->rect.x -= xsize + 1; // Move out of collision
                          printf("l\n");
+                         brickCollision(0);
                          //   BallBrickResponse(0);
                         } else {
                             // Right
                          printf("r\n");
-                            p->rect.x += xsize + 0.01f; // Move out of collision
+                            p->rect.x += xsize + 1; // Move out of collision
                       //      BallBrickResponse(2);
+                         brickCollision(2);
                         }
                     }
 
@@ -346,19 +352,22 @@ int trackCollision(NPC *p,int opt){
 
 
 
- 						p->velY = (-1)*p->velY;
-	                    p->rect.y += p->velY;
+                //      p->velY = (-1)*p->velY;
+                 //       p->rect.y += p->velY;
                         if(p->velX == 0){
                             p->velX = 3;
                         }
-                	}
-               	}
+
+                        if(p->velY ==0){
+                            p->velY==3;
+                        }
+                    }
+                }
             }
         }       
     }
     return 0;
 }
-
 int menu() {
 	int mouseX, mouseY;
 	SDL_Texture *menuImg;
@@ -397,7 +406,49 @@ int menu() {
 
 	return 0;
 }
+int brickCollision(int n){
+    if (ball.velX > 0 ){
+        if (ball.velY > 0){
+            if ( n == 0 || n == 3){
+            ball.velX =  - ball.velX;
+             ball.rect.x += ball.velX;
 
+           }else{
+                ball.velY =  -ball.velY;
+                ball.rect.y += ball.velY;
+            }
+        }else if (ball.velY < 0){
+            if(n ==0 || n ==2){
+             ball.velX = -ball.velX;
+            ball.rect.x += ball.velX;
+            }else{
+       ball.velY =  -ball.velY;
+     ball.rect.y += ball.velY;
+               }
+        } 
+    }else if (ball.velX < 0){
+        if(ball.velY > 0){
+            if (n ==2 || n ==3){
+             ball.velX = -ball.velX;
+     ball.rect.x += ball.velX;
+
+ }else{
+      ball.velY =  -ball.velY;
+     ball.rect.y += ball.velY;
+            }
+        }else if (ball.velY < 0){
+            if(n == 1|| n ==2){
+              ball.velX = -ball.velX;
+     ball.rect.x += ball.velX;
+
+}else{
+     ball.velY =  -ball.velY;
+     ball.rect.y += ball.velY;
+            }
+        }
+    }
+
+}
 int loadSound(){
 	sideHit = Mix_LoadWAV("side_hit.wav");
 	if(sideHit == NULL){

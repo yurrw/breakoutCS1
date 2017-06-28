@@ -10,4 +10,5 @@ int  trackCollision(NPC *p,int opt);
 int menu();
 int loadSound();
 int createFontTexture(SDL_Texture **tex, TTF_Font *font, int r, int g, int b);
+int brickCollision(int n);
 #endif
