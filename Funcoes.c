@@ -430,7 +430,8 @@ int menu() {
 
 					else if(mouseX > WIDTH / 4 && mouseX < (WIDTH / 4) * 3 && mouseY > (int)(HEIGHT / 1.4) && mouseY < (int)(HEIGHT / 1.08))
 					{
-						play = 0;
+						SDL_DestroyTexture(menuImg);
+                        play = 0;
 						break;
 					}
 			}
@@ -527,6 +528,6 @@ int gameOver() {
             }
         }
     }
-
+    SDL_DestroyTexture(overImg);
     return 0;
 }
