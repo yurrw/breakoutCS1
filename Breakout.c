@@ -12,17 +12,23 @@ int main(int argc, char *argv[]){
 	IMAG limite, score;
 	SDL_Rect scoreRect;
 	SDL_Rect vidaRect;
+	SDL_Rect nomeRect;
 
 	if(argc > 1){
-		if(argc < 3 || argc > 3){
-			puts("Quantidade de argumentos inválida, inicialize com - Largura  Altura - ");
-		return 1;
+		if(argc == 2){
+			sscanf(argv[1],"%s",nome);
 		}
-		if(init(argv[1],argv[2]) == 1){
+		else if(argc == 4){
+			if(init(argv[1],argv[2]) == 1){
+				return 1;
+			}
+			sscanf(argv[3],"%s",nome);
+		}else{
+			puts("Voce digitou errado, inicialize com Largura Altura Nome -OU- Nome apenas");
 			return 1;
-		}	
+		}
 	}else{
-		if(init("640","480") == 1){
+		if(init("640","480")==1){
 			return 1;
 		}
 	}
@@ -92,12 +98,16 @@ int main(int argc, char *argv[]){
 		sprintf(vidaStr, "%d", vida);
         createFontTexture(&scoreTexture,gFont, 255, 0, 0, scoreStr);
         createFontTexture(&vidaTexture,gFont, 0, 255, 0, vidaStr);
+        createFontTexture(&nomeTexture,gFont,0,255,0,nome);
         SDL_QueryTexture(scoreTexture, NULL, NULL, &scoreRect.w, &scoreRect.h);
         SDL_QueryTexture(vidaTexture, NULL, NULL, &vidaRect.w, &vidaRect.h);
+        SDL_QueryTexture(nomeTexture,NULL,NULL,&nomeRect.w,&nomeRect.h);
 		scoreRect.x = WIDTH / 12;
 		scoreRect.y = HEIGHT / 8;
 		vidaRect.x = WIDTH / 10;
 		vidaRect.y = (HEIGHT / 8) * 7;
+		nomeRect.x = WIDTH/18;
+		nomeRect.y = HEIGHT/5;
 
 		SDL_SetRenderDrawColor(gRenderer,0,0,0,0);
 		SDL_RenderClear(gRenderer);
@@ -113,6 +123,7 @@ int main(int argc, char *argv[]){
 	        }
         SDL_RenderCopy(gRenderer, scoreTexture, NULL, &scoreRect);
         SDL_RenderCopy(gRenderer, vidaTexture, NULL, &vidaRect);
+        SDL_RenderCopy(gRenderer,nomeTexture,NULL,&nomeRect);
         SDL_RenderPresent(gRenderer);
 		SDL_Delay(16);
 

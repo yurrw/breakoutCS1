@@ -11,12 +11,14 @@ extern SDL_Event event;
 extern TTF_Font *gFont;
 extern SDL_Texture *scoreTexture;
 extern SDL_Texture *vidaTexture;
+extern SDL_Texture *nomeTexture;
 
 extern int points;
 extern int pointsForLife;
 extern int vida;
 extern char vidaStr[10];
 extern char scoreStr[10];
+extern char nome[40];
 
 extern NPC ball;
 extern NPC plataform;
