@@ -10,6 +10,11 @@ extern SDL_Renderer *gRenderer;
 extern SDL_Event event;
 extern TTF_Font *gFont;
 
+extern int score;
+extern int vida;
+extern char vidaStr[10];
+extern char scoreStr[10];
+
 extern NPC ball;
 extern NPC plataform;
 extern int COLS;
