@@ -47,7 +47,7 @@ int init(char w[],char h[]){
         return  1;
     }
 
-    gFont = TTF_OpenFont("FSEX300.ttf", 22);
+    gFont = TTF_OpenFont("FSEX300.ttf", 28);
 
 	return 0;
 
@@ -247,6 +247,7 @@ int trackCollision(NPC *p,int opt){
                    		//decrementa dps testa a existencia, antes a bolinha atravessava e nao rebatia
                         brick[i][j].lives--; 
                    		if(brick[i][j].lives == 0){
+                            points +=25;
                    			Mix_PlayChannel(-1,destroyBrick,0);
                         	brick[i][j].texture = NULL;                            
                         	brick[i][j].existance  = 0; 
