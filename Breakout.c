@@ -8,32 +8,32 @@
 #include "Funcoes.h"
 
 int main(int argc, char *argv[]){
-	int i, j; // control
+	int i, j;            // control
 	IMAG limite, score;
 	SDL_Rect scoreRect;
 	SDL_Rect vidaRect;
 	SDL_Rect nomeRect;
 
-	if(argc > 1){
-		if(argc == 2){
-			sscanf(argv[1],"%s",nome);
-		}
-		else if(argc == 4){
-			if(init(argv[1],argv[2]) == 1){
-				return 1;
-			}
-			sscanf(argv[3],"%s",nome);
-		}else{
-			puts("Voce digitou errado, inicialize com Largura Altura Nome -OU- Nome apenas");
-			return 1;
-		}
-	}else{
-		if(init("640","480")==1){
-			return 1;
-		}
+	switch(argc){
+		case 2 : sscanf(argv[1],"%s",nome);
+		//Defaults' mode 640x480
+		case 1 : {  if(init("640","480")==1){
+						return 1;
+		            }
+		        	break;
+		         }
+		case 4 : {  if(!isalpha(argv[1]) || !isalpha())
+			        if(init(argv[1],argv[2]) == 1){
+						 return 1;
+		            }
+					sscanf(argv[3],"%s",nome);
+                    break;
+				 }
+		default:
+		    puts("Inicializar com Largura Altura Nome OU Nome apenas");
+		    return 1;	 
 	}
 	
-   
     //void createNPC(NPC *p,int x,int y,int w,int h,int velX,int velY,char path[]){
 	if(loadSound() != 0){
 		return 1;
@@ -49,7 +49,7 @@ int main(int argc, char *argv[]){
 	score.rect.y = 0;
 	score.rect.w = 157;
 	score.rect.h = HEIGHT;
-	
+
 	//createFontTexture(&scoreTexture,gFont, 255, 0, 0);
 	//SDL_QueryTexture(scoreTexture, NULL, NULL, &scoreRect.w, &scoreRect.h);
 	//scoreRect.x = 0;
@@ -78,7 +78,7 @@ int main(int argc, char *argv[]){
 							break;
 						case SDLK_RIGHT:
 							if(plataform.rect.x > WIDTH - plataform.rect.w - WIDTH / 32){
-								plataform.rect.x += 0;	
+								plataform.rect.x += 0;
 							}else{
 								plataform.rect.x += plataform.velX;
 							}
@@ -130,7 +130,7 @@ int main(int argc, char *argv[]){
 		SDL_Delay(16);
 
 	}
-	
+
 	TTF_CloseFont(gFont);
 	TTF_Quit();
 	SDL_DestroyRenderer(gRenderer);

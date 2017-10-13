@@ -4,7 +4,7 @@
 extern int WIDTH;
 extern int HEIGHT;
 extern int play;
-extern int lvl;             // Actual player`s level
+extern int lvl;                      // Actual player`s level
 extern SDL_Window *gWindow;
 extern SDL_Renderer *gRenderer;
 extern SDL_Event event;

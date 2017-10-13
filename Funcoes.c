@@ -82,21 +82,21 @@ int loadMedia(SDL_Texture **tex,char path[]){
 
 }
 void createBricks(int lvl){
-   
+
     srand((unsigned int)time(NULL)); // random`s seed
     int i,j,y,x;                     // control variables
     i = j = 0; // x axis , y axis
     x = (WIDTH / 4);
 
-    y = 35; //espaço inicial em cima antes dos blocos para a bola quebrar varios de uma vez     
+    y = 35; //espaço inicial em cima antes dos blocos para a bola quebrar varios de uma vez
     brick=(BRICK **)malloc(ROWS * sizeof(BRICK *));
-    
+
     for (i = 0; i < COLS ; ++i)    //create inner-array
         brick[i] = (BRICK *)malloc(COLS * sizeof(BRICK));
-    
+
     if(brick == NULL){
-        printf("erro ao alocar memoria para os blocos\n"); 
-        return;  
+        printf("erro ao alocar memoria para os blocos\n");
+        return;
     }
 
     int randomLife;                  // number of lives of a block
@@ -109,12 +109,12 @@ void createBricks(int lvl){
             brick[i][j].existance=1;       // block`s check
             brick[i][j].lives=randomLife;  // block`s life
             brick[i][j].x= x;
-            brick[i][j].y= y; 
+            brick[i][j].y= y;
             brick[i][j].rect.x= x;
             brick[i][j].rect.y = y;
             brick[i][j].rect.w = WIDTH/10;
             brick[i][j].rect.h = 35;
-            
+
             //adicionei cores dependendo da vida
             if(randomLife == 1 || (lvl == 1 && randomLife !=1)){
                 loadMedia(&brick[i][j].texture,"brick_green.png");
@@ -127,11 +127,11 @@ void createBricks(int lvl){
             x = x + (WIDTH/10) + 3;
             if (x >= WIDTH - 30)
                 break;
-            else 
+            else
                 continue;
         }
         //consertando o erro da bola atravessar alguns blocos da primeira linha
-        y +=35; 
+        y +=35;
         x = (WIDTH / 4);
     }
 
@@ -156,7 +156,7 @@ void moveNPC(NPC *p){
 	dy = p->rect.y - plataform.rect.y;
 
 	distance = sqrt(dx*dx + dy*dy);
-	
+
 	maxDistance = sqrt( (plataform.rect.w - p->rect.w/2) * (plataform.rect.w - p->rect.w/2) + (p->rect.h)*(p->rect.h) );
 	minDistance = sqrt( (p->rect.h)*(p->rect.h) + (p->rect.w/2)*(p->rect.w/2) );
 
@@ -176,15 +176,15 @@ void moveNPC(NPC *p){
       if(p->velX == 0){
                             p->velX = 3;
                         }
-  
+
 	}
-    
+
     int teste;
     /*plataforma*/
-   
+
     if(p->rect.y > 0.9*HEIGHT-p->rect.w && distance < maxDistance && distance > minDistance && dx > 0 && p->velY > 0){
-       
-            teste =  (( ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /25) * p->velX ) %75); 
+
+            teste =  (( ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /25) * p->velX ) %75);
         if(p->rect.x >( plataform.rect.x + (plataform.rect.w) /2 ) ){
             p->velY = -p->velY;
             p->rect.y += p->velY;
@@ -194,7 +194,7 @@ void moveNPC(NPC *p){
                 p->velX = - p->velX;
                 p->rect.x += p->velX;
             }
-        
+
         }else if(p->rect.x < ( plataform.rect.x + (plataform.rect.w) /2 ) ){
             p->velY = -p->velY;
             p->rect.y += p->velY;
@@ -205,7 +205,7 @@ void moveNPC(NPC *p){
                 p->velX = - p->velX ;
                 p->rect.x += p->velX;
             }
-            
+
         }else{
             p->velY = -p->velY;
             p->rect.y += p->velY;
@@ -213,11 +213,11 @@ void moveNPC(NPC *p){
                 p->velX = 0;
                 p->rect.x += p->velX;
             }
- 
 
-            
+
+
         }
- 
+
     }
     /*nextlevel*/
     printf("%d\n",pointsTMP );
@@ -235,9 +235,9 @@ void moveNPC(NPC *p){
 		p->rect.x = 0.5*WIDTH;
 		p->rect.y = 0.5*HEIGHT;
 	}
-    // hits bricks 
+    // hits bricks
     if(p->rect.y <= 6*brick[0][0].rect.h  + 30){
-        trackCollision(p,3); 
+        trackCollision(p,3);
     }
 }
     void nextlevel(NPC *b,int level){
@@ -254,26 +254,26 @@ void moveNPC(NPC *p){
 }
 int trackCollision(NPC *p,int opt){
     int i,j;
-   
+
     for (i = 0; i < ROWS ; i++){
         for (j =0; j < COLS;j++){
            // SDL_RenderCopy(gRenderer,brick[i][j].texture,NULL,&brick[i][j].rect;
             if(!brick[i][j].existance){
-                continue;             
+                continue;
             }else{
                if((p->rect.y  >= brick[i][j].rect.y - 35
-                           &&  p->rect.y  <= brick[i][j].rect.y + 35 ) ){ 
+                           &&  p->rect.y  <= brick[i][j].rect.y + 35 ) ){
                    if(  (p->rect.x  >= brick[i][j].rect.x - brick[i][j].rect.w  &&
                                p->rect.x  <= brick[i][j].rect.x + brick[i][j].rect.w ) ){
                         //decrementa dps testa a existencia, antes a bolinha atravessava e nao rebatia
-                        brick[i][j].lives--; 
+                        brick[i][j].lives--;
                         if(brick[i][j].lives == 0){
                             points +=100;
                             pointsTMP +=100;
                             pointsForLife += 100;
                             Mix_PlayChannel(-1,destroyBrick,0);
-                            brick[i][j].texture = NULL;                            
-                            brick[i][j].existance  = 0; 
+                            brick[i][j].texture = NULL;
+                            brick[i][j].existance  = 0;
                         }
                         else if(brick[i][j].lives == 2){
                             loadMedia(&brick[i][j].texture,"brick_yellow.png");
@@ -286,7 +286,7 @@ int trackCollision(NPC *p,int opt){
 
                         int ballcentery = p->rect.y + 0.5*p->rect.h;
                         int ballcenterx = p->rect.x + 0.5*p->rect.w;
-                        printf("%d",p->rect.h); 
+                        printf("%d",p->rect.h);
                         int brickcenterx = brick[i][j].rect.x + 0.5*brick[i][j].rect.w;
                         int brickcentery = brick[i][j].rect.y + 0.5*brick[i][j].rect.h;
                         int ymin = 0;
@@ -322,14 +322,14 @@ int trackCollision(NPC *p,int opt){
                     }
 
                     float xsize = xmax - xmin;
- 
+
                                if (xsize > ysize) {
                         if (ballcentery > brickcentery) {
                             // Bottom
                              //p->rect.y += ysize; // Move out of collision
                          printf("b\n");
                           //  BallBrickResponse(3);
-                       brickCollision(3); 
+                       brickCollision(3);
                         } else {
                             // Top
                             p->rect.y -= ysize; // Move out of collision
@@ -387,12 +387,12 @@ int trackCollision(NPC *p,int opt){
                             p->velX = -p->velX;
                             p->rect.x += p->velX;
 
-                    
+
                         }
                     }
                 }
             }
-        }       
+        }
     }
     return 0;
 }
@@ -424,7 +424,7 @@ int menu() {
 					}
 					break;
 				case SDL_MOUSEBUTTONDOWN:
-					if (mouseX > WIDTH / 4 && mouseX < (WIDTH / 4) * 3 && mouseY > HEIGHT / 7 && mouseY < (int)(HEIGHT / 2.7)) 
+					if (mouseX > WIDTH / 4 && mouseX < (WIDTH / 4) * 3 && mouseY > HEIGHT / 7 && mouseY < (int)(HEIGHT / 2.7))
 					{
 						SDL_DestroyTexture(menuImg);
 						return 1;
@@ -466,7 +466,7 @@ int brickCollision(int n){
        ball.velY =  -ball.velY;
      ball.rect.y += ball.velY;
                }
-        } 
+        }
     }else if (ball.velX < 0){
         if(ball.velY > 0){
             if (n ==2 || n ==3){
@@ -539,7 +539,7 @@ int gameOver() {
 
 int ranking(){
     SDL_Texture *rankingImg;
-    
+
     loadMedia(&rankingImg,"ranking.png");
     showRankT();
     SDL_RenderCopy(gRenderer,rankingImg,NULL,NULL);
@@ -556,9 +556,9 @@ int ranking(){
                             return 0;
                     }
                     break;
-                
 
-            
+
+
             }
         }
     }
@@ -566,14 +566,14 @@ int ranking(){
     return 0;
 }
 void showRankT(){
-   
+
     printf("aqui\n");
     IMAG rRank;
-    SDL_Rect rankRect; 
+    SDL_Rect rankRect;
     FILE *rankbin;
     int i=0;
     rankbin = fopen("rank.bin","r+b"); //Read actual rank
-  
+
     if (rankbin == NULL){
         fputs("Erro ao abrir rank",stderr);
         exit(1);
@@ -583,7 +583,7 @@ void showRankT(){
 
                fread(&rkdados[i].name, sizeof(char), 4, rankbin);
                fread(&rkdados[i].pontuacao, sizeof(int),1, rankbin);
-       
+
              }
         for(i=0;i<5;i++){
             printf("%s %d\n",rkdados[i].name,rkdados[i].pontuacao);
@@ -596,17 +596,17 @@ void showRankT(){
         rankRect.x = 300;
         rankRect.y = 300;
 
-        fclose(rankbin);        
+        fclose(rankbin);
     }
-    
-        
+
+
 }
 int writeRank(char usr[],int pontuacao){
-    
+
     FILE *rankbin;
     int i=0;
     rankbin = fopen("rank.bin","rw+b"); //Read actual rank
-  
+
     if (rankbin == NULL){
         fputs("Erro ao abrir rank",stderr);
         exit(1);
@@ -617,17 +617,17 @@ int writeRank(char usr[],int pontuacao){
                fread(&rkdados[i].name, sizeof(char), 4, rankbin);
                fread(&rkdados[i].pontuacao, sizeof(int),1, rankbin);
          }
-            
+
             for(i=0;i<3;i++)
                 rkdados[5].name[i] =  usr[i];
             rkdados[5].pontuacao = pontuacao ;
-        qsort(rkdados,6,sizeof(RK),cmp); 
+        qsort(rkdados,6,sizeof(RK),cmp);
         fseek(rankbin,0,SEEK_SET); //set pointer to the beggining
         for ( i =0 ; i < 5; i++){
                fwrite (&rkdados[i].name , sizeof(char), 4,rankbin);
                fwrite (&rkdados[i].pontuacao, sizeof(int), 1, rankbin);
         }
-      
+
         fseek(rankbin,0,SEEK_SET); //set pointer to the beggining
         for (i =0; i < 5; i++){
 
@@ -638,24 +638,15 @@ int writeRank(char usr[],int pontuacao){
         for(i =0; i < 5; i++){
             printf("%s %d\n",rkdados[i].name,rkdados[i].pontuacao);
         }
- 
-    
+
+
     fclose(rankbin);
     }
-
-
-
-
-
-/*
-*/
     return 1;
 }
-int cmp(const void * a, const void * b)
-{
-        
-        RK *pont1 = (RK *)a;
-        RK *pont2 = (RK *)b;
+int cmp(const void *a, const void *b){
+       RK *pont1 = (RK *)a;
+       RK *pont2 = (RK *)b;
        return ( pont2->pontuacao - pont1->pontuacao );
 }
 
