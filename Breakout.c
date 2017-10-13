@@ -22,18 +22,18 @@ int main(int argc, char *argv[]){
 		            }
 		        	break;
 		         }
-		case 4 : {  if(!isalpha(argv[1]) || !isalpha())
-			        if(init(argv[1],argv[2]) == 1){
+		case 4 : {  if(init(argv[1],argv[2]) == 1){
 						 return 1;
 		            }
 					sscanf(argv[3],"%s",nome);
                     break;
 				 }
 		default:
-		    puts("Inicializar com Largura Altura Nome OU Nome apenas");
+			puts("Inicializar com Largura Altura Nome OU Nome apenas");
+			puts("./Breakout WIDTH HEIGH username");
 		    return 1;	 
 	}
-	
+
     //void createNPC(NPC *p,int x,int y,int w,int h,int velX,int velY,char path[]){
 	if(loadSound() != 0){
 		return 1;
