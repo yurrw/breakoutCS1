@@ -15,20 +15,20 @@ int main(int argc, char *argv[]){
 	SDL_Rect nomeRect;
 
 	switch(argc){
-		case 2 : sscanf(argv[1],"%s",nome);
+		case 2  : sscanf(argv[1],"%s",nome);
 		//Defaults' mode 640x480
-		case 1 : {  if(init("640","480")==1){
+		case 1  : {  if(init("640","480")==1){
 						return 1;
 		            }
 		        	break;
 		         }
-		case 4 : {  if(init(argv[1],argv[2]) == 1){
+		case 4  : {  if(init(argv[1],argv[2]) == 1){
 						 return 1;
 		            }
 					sscanf(argv[3],"%s",nome);
                     break;
 				 }
-		default:
+		default :
 			puts("Inicializar com Largura Altura Nome OU Nome apenas");
 			puts("./Breakout WIDTH HEIGH username");
 		    return 1;	 
@@ -63,6 +63,7 @@ int main(int argc, char *argv[]){
 			switch(event.type){
 				case SDL_QUIT:
 					play = 0;
+					return 1;
 					break;
 				case SDL_KEYDOWN:
 					switch(event.key.keysym.sym){
@@ -131,16 +132,16 @@ int main(int argc, char *argv[]){
 
 	}
 
-	TTF_CloseFont(gFont);
-	TTF_Quit();
-	SDL_DestroyRenderer(gRenderer);
-	SDL_DestroyWindow(gWindow);
-	SDL_DestroyTexture(ball.texture);
-	SDL_DestroyTexture(plataform.texture);
-	for (i = 0; i < ROWS ; i++)
-            for (j =0; j < COLS;j++){
-                SDL_DestroyTexture(brick[i][j].texture);
-            }
+//	TTF_CloseFont(gFont);
+	//TTF_Quit();
+//	SDL_DestroyRenderer(gRenderer);
+//	SDL_DestroyWindow(gWindow);
+//	SDL_DestroyTexture(ball.texture);
+//	SDL_DestroyTexture(plataform.texture);
+//	for (i = 0; i < ROWS ; i++)
+//          for (j =0; j < COLS;j++){
+//            SDL_DestroyTexture(brick[i][j].texture);
+//      }
 	SDL_Quit();
 
 	return 0;
