@@ -13,6 +13,7 @@
 
 
 int init(char w[],char h[]){
+    //Converting "string" to number
 	WIDTH = atoi(w);
 	HEIGHT = atoi(h);
 
@@ -48,7 +49,6 @@ int init(char w[],char h[]){
     }
 
     gFont = TTF_OpenFont("FSEX300.ttf", 28);
-
 	return 0;
 
 }
@@ -220,7 +220,7 @@ void moveNPC(NPC *p){
 
     }
     /*nextlevel*/
-    printf("%d\n",pointsTMP );
+   // printf("%d\n",pointsTMP );
         if (pointsTMP == 100 * ROWS * COLS){
         lvl++;
         points+=1000;
@@ -240,16 +240,15 @@ void moveNPC(NPC *p){
         trackCollision(p,3);
     }
 }
-    void nextlevel(NPC *b,int level){
-        b->velX =0;
-        b->velY =5;
-        b->rect.x=WIDTH/2;
-        b->rect.y=HEIGHT/2;
-        pointsTMP =0;
-        free(brick);
-        createBricks(lvl);
-
-        printf("nextleve\n");
+void nextlevel(NPC *b,int level){
+    b->velX =0;
+    b->velY =5;
+    b->rect.x=WIDTH/2;
+    b->rect.y=HEIGHT/2;
+    pointsTMP =0;
+    free(brick);
+    createBricks(lvl);
+    printf("nextleve\n");
 
 }
 int trackCollision(NPC *p,int opt){
@@ -406,7 +405,8 @@ int menu() {
 	loadMedia(&menuImg,"menu.png");
     createFontTexture(&nomeGrupo,gFont,0,0,0,nomesGrupo);
     SDL_QueryTexture(nomeGrupo, NULL, NULL, &nomesRect.w, &nomesRect.h);
-	while(play){
+    
+    while(play){
         SDL_RenderCopy(gRenderer,menuImg,NULL,NULL);
         SDL_RenderCopy(gRenderer,nomeGrupo,NULL,&nomesRect);
         SDL_RenderPresent(gRenderer);
@@ -501,13 +501,12 @@ int loadSound(){
 		printf("Erro ao carregar destroyBrick.wav : %s\n",Mix_GetError());
 		return 1;
 	}
-	music = Mix_LoadMUS("main.mp3");
+    music = Mix_LoadMUS("main.mp3");
 	if(music == NULL){
 		printf("Erro ao carregar main.mp3:%s\n",Mix_GetError());
 		return 1;
 	}
 	Mix_PlayMusic(music,-1);
-
 	return 0;
 }
 
@@ -585,9 +584,9 @@ void showRankT(){
                fread(&rkdados[i].pontuacao, sizeof(int),1, rankbin);
 
              }
-        for(i=0;i<5;i++){
-            printf("%s %d\n",rkdados[i].name,rkdados[i].pontuacao);
-        }
+     //   for(i=0;i<5;i++){
+           // printf("%s %d\n",rkdados[i].name,rkdados[i].pontuacao);
+       // }
         //PRINTAR O RKDADOS
         rRank.rect.x = (WIDTH/4) -10;
         rRank.rect.y =0;
@@ -634,10 +633,10 @@ int writeRank(char usr[],int pontuacao){
                fread(&rkdados[i].name, sizeof(char), 4, rankbin);
                fread(&rkdados[i].pontuacao, sizeof(int),1, rankbin);
          }
-        printf("tega\n");
-        for(i =0; i < 5; i++){
-            printf("%s %d\n",rkdados[i].name,rkdados[i].pontuacao);
-        }
+       // printf("tega\n");
+        //for(i =0; i < 5; i++){
+        //    printf("%s %d\n",rkdados[i].name,rkdados[i].pontuacao);
+        //}
 
 
     fclose(rankbin);

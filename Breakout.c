@@ -8,21 +8,25 @@
 #include "Funcoes.h"
 
 int main(int argc, char *argv[]){
-	int i, j;            // control
+	int i, j;			//control variables
 	IMAG limite, score;
 	SDL_Rect scoreRect;
 	SDL_Rect vidaRect;
 	SDL_Rect nomeRect;
-
+	const Uint8* state = SDL_GetKeyboardState(NULL);
+	
+	//Setting up screen
 	switch(argc){
 		case 2  : sscanf(argv[1],"%s",nome);
 		//Defaults' mode 640x480
-		case 1  : {  if(init("640","480")==1){
+		case 1  : { 
+					if(init("640","480")==1){
 						return 1;
 		            }
 		        	break;
 		         }
-		case 4  : {  if(init(argv[1],argv[2]) == 1){
+		case 4  : { 
+					if(init(argv[1],argv[2]) == 1){
 						 return 1;
 		            }
 					sscanf(argv[3],"%s",nome);
@@ -34,31 +38,50 @@ int main(int argc, char *argv[]){
 		    return 1;	 
 	}
 
-    //void createNPC(NPC *p,int x,int y,int w,int h,int velX,int velY,char path[]){
 	if(loadSound() != 0){
 		return 1;
 	}
+
 	menu();
-	loadMedia(&limite.texture,"borda.png");
+	//Loading screen limits for the game
+	if (loadMedia(&limite.texture,"borda.png"))
+		return 1;
+	//int teste = loadMedia(&limite.texture,"borda.png");
+	//printf("%d",teste);
 	limite.rect.x = (WIDTH / 4) - 10;
 	limite.rect.y = 0;
 	limite.rect.w = (WIDTH / 4) * 3 + 10;
 	limite.rect.h = HEIGHT;
+	//Loading score
 	loadMedia(&score.texture,"score.png");
 	score.rect.x = 0;
 	score.rect.y = 0;
 	score.rect.w = 157;
 	score.rect.h = HEIGHT;
-
-	//createFontTexture(&scoreTexture,gFont, 255, 0, 0);
-	//SDL_QueryTexture(scoreTexture, NULL, NULL, &scoreRect.w, &scoreRect.h);
-	//scoreRect.x = 0;
+	
 	scoreRect.y = 0;
 	createNPC(&ball,WIDTH/2,HEIGHT/2,20,19,0,5,"ball.png");
    	createBricks(lvl);
 
-	createNPC(&plataform,WIDTH/2,0.9*HEIGHT,200,25,23,23,"plataform.png");
+	//Creating Plataform
+	createNPC(&plataform,WIDTH/2,0.9*HEIGHT,125,25,23,23,"plataform.png");
+	
 	while(play){
+		//Moving to right
+		if (state[SDL_SCANCODE_RIGHT] ) {
+			if(plataform.rect.x > WIDTH - plataform.rect.w - WIDTH / 32){
+				plataform.rect.x += 0;
+			}else{
+				plataform.rect.x += plataform.velX/1.9;
+			}
+		//Moving to left
+		}else if(state[SDL_SCANCODE_LEFT]){
+			if(plataform.rect.x < WIDTH / 4  + WIDTH / 48){
+				plataform.rect.x -= 0;
+			}else{
+				plataform.rect.x -= plataform.velX/1.9;
+			}
+		}
 		if(SDL_PollEvent(&event)){
 			switch(event.type){
 				case SDL_QUIT:
@@ -69,20 +92,6 @@ int main(int argc, char *argv[]){
 					switch(event.key.keysym.sym){
 						case SDLK_ESCAPE:
 							menu();
-							break;
-						case SDLK_LEFT:
-							if(plataform.rect.x < WIDTH / 4  + WIDTH / 48){
-								plataform.rect.x -= 0;
-							}else{
-								plataform.rect.x -= plataform.velX;
-							}
-							break;
-						case SDLK_RIGHT:
-							if(plataform.rect.x > WIDTH - plataform.rect.w - WIDTH / 32){
-								plataform.rect.x += 0;
-							}else{
-								plataform.rect.x += plataform.velX;
-							}
 							break;
 					}
 					break;
@@ -132,16 +141,6 @@ int main(int argc, char *argv[]){
 
 	}
 
-//	TTF_CloseFont(gFont);
-	//TTF_Quit();
-//	SDL_DestroyRenderer(gRenderer);
-//	SDL_DestroyWindow(gWindow);
-//	SDL_DestroyTexture(ball.texture);
-//	SDL_DestroyTexture(plataform.texture);
-//	for (i = 0; i < ROWS ; i++)
-//          for (j =0; j < COLS;j++){
-//            SDL_DestroyTexture(brick[i][j].texture);
-//      }
 	SDL_Quit();
 
 	return 0;
