@@ -43,43 +43,46 @@ int main(int argc, char *argv[]){
 	}
 
 	menu();
+	
 	//Loading screen limits for the game
 	if (loadMedia(&limite.texture,"borda.png"))
 		return 1;
-	//int teste = loadMedia(&limite.texture,"borda.png");
-	//printf("%d",teste);
 	limite.rect.x = (WIDTH / 4) - 10;
 	limite.rect.y = 0;
 	limite.rect.w = (WIDTH / 4) * 3 + 10;
 	limite.rect.h = HEIGHT;
+	
 	//Loading score
-	loadMedia(&score.texture,"score.png");
+	if (loadMedia(&score.texture,"score.png"))
+		return 1;
 	score.rect.x = 0;
 	score.rect.y = 0;
 	score.rect.w = 157;
 	score.rect.h = HEIGHT;
 	
 	scoreRect.y = 0;
-	createNPC(&ball,WIDTH/2,HEIGHT/2,20,19,0,5,"ball.png");
+	createNPC(&ball,WIDTH/2,HEIGHT/2,20,20,0,5,"ball.png");
    	createBricks(lvl);
 
 	//Creating Plataform
-	createNPC(&plataform,WIDTH/2,0.9*HEIGHT,125,25,23,23,"plataform.png");
+	createNPC(&plataform,WIDTH/2,0.9*HEIGHT,100,25,23,23,"plataform.png");
 	
 	while(play){
 		//Moving to right
 		if (state[SDL_SCANCODE_RIGHT] ) {
 			if(plataform.rect.x > WIDTH - plataform.rect.w - WIDTH / 32){
+				//when hits the right corner
 				plataform.rect.x += 0;
 			}else{
-				plataform.rect.x += plataform.velX/1.9;
+				plataform.rect.x += plataform.velX/2.5;
 			}
 		//Moving to left
 		}else if(state[SDL_SCANCODE_LEFT]){
-			if(plataform.rect.x < WIDTH / 4  + WIDTH / 48){
+			if(plataform.rect.x < WIDTH / 4  + 7){
+				//when hits the left corner				
 				plataform.rect.x -= 0;
 			}else{
-				plataform.rect.x -= plataform.velX/1.9;
+				plataform.rect.x -= plataform.velX/2.5;
 			}
 		}
 		if(SDL_PollEvent(&event)){
@@ -98,16 +101,22 @@ int main(int argc, char *argv[]){
 			}
 		}
 
-		if (vida <= 0) gameOver();
-
+		
+		//Moving ball
 		moveNPC(&ball);
+	
+		if (vida <= 0)
+			gameOver();
+		//Wins a life in 10K points
 		if (pointsForLife >= 10000)
 		{
-			vida = vida +1;
+			vida += 1;
 			pointsForLife -= 10000;
 		}
+
 		sprintf(scoreStr, "%d", points);
 		sprintf(vidaStr, "%d", vida);
+		
         createFontTexture(&scoreTexture,gFont, 255, 0, 0, scoreStr);
         createFontTexture(&vidaTexture,gFont, 0, 255, 0, vidaStr);
         createFontTexture(&nomeTexture,gFont,0,255,0,nome);
@@ -137,7 +146,7 @@ int main(int argc, char *argv[]){
         SDL_RenderCopy(gRenderer, vidaTexture, NULL, &vidaRect);
         SDL_RenderCopy(gRenderer,nomeTexture,NULL,&nomeRect);
         SDL_RenderPresent(gRenderer);
-		SDL_Delay(16);
+		SDL_Delay(1);	//TODO checar
 
 	}
 

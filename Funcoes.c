@@ -43,7 +43,7 @@ int init(char w[],char h[]){
 		return 1;
 	}
 
-    if( TTF_Init() == -1 )  {
+    if( TTF_Init() == -1 ){
         printf( "Erro ao iniciar o controlador de fontes: %s\n", TTF_GetError() );
         return  1;
     }
@@ -82,10 +82,9 @@ int loadMedia(SDL_Texture **tex,char path[]){
 
 }
 void createBricks(int lvl){
-
     srand((unsigned int)time(NULL)); // random`s seed
     int i,j,y,x;                     // control variables
-    i = j = 0; // x axis , y axis
+    i = j = 0;                       // x axis , y axis
     x = (WIDTH / 4);
 
     y = 35; //espaço inicial em cima antes dos blocos para a bola quebrar varios de uma vez
@@ -103,7 +102,7 @@ void createBricks(int lvl){
     for(i=0 ; i < ROWS ; i++ ){
         //generate rows of n cols
         for( j =0 ; j < COLS ; j++){
-        //generate columns` of the row
+            //generate columns` of the row
             randomLife = 1 + rand() % lvl;
 
             brick[i][j].existance=1;       // block`s check
@@ -131,15 +130,12 @@ void createBricks(int lvl){
                 continue;
         }
         //consertando o erro da bola atravessar alguns blocos da primeira linha
-        y +=35;
+        y += 35;
         x = (WIDTH / 4);
     }
-
-
  }
 
 void createNPC(NPC *p,int x,int y,int w,int h,int velX,int velY,char path[]){
-
 	p->velX = velX;
 	p->velY = velY;
 	p->rect.x = x;
@@ -148,9 +144,13 @@ void createNPC(NPC *p,int x,int y,int w,int h,int velX,int velY,char path[]){
 	p->rect.h = h;
 	loadMedia(&p->texture,path);
 }
+ 
+    
 
 void moveNPC(NPC *p){
-	int dx,dy,maxDistance,minDistance,distance;
+    int dx,dy,
+        maxDistance,minDistance,
+        distance;
 
 	dx = p->rect.x - plataform.rect.x;
 	dy = p->rect.y - plataform.rect.y;
@@ -161,7 +161,51 @@ void moveNPC(NPC *p){
 	minDistance = sqrt( (p->rect.h)*(p->rect.h) + (p->rect.w/2)*(p->rect.w/2) );
 
 	p->rect.x += p->velX;
-	p->rect.y += p->velY;
+    p->rect.y += p->velY;
+    
+    int teste;
+    /*plataforma*/
+    
+    if(p->rect.y > 0.9*HEIGHT - p->rect.w && distance < maxDistance && distance >= minDistance && dx >=  0 && p->velY > 0){
+
+        teste =  (( ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /25) * p->velX ) %75);
+        
+        if(p->rect.x >( plataform.rect.x + (plataform.rect.w) /2 ) ){
+            p->velY = -p->velY;
+            p->rect.y += p->velY;
+                p->velX = teste;
+                 p->rect.x +=  teste  == 0 ? p->velX : teste ;
+            if(p->velX < 0 ){
+                p->velX = - p->velX;
+                p->rect.x += p->velX;
+            }
+            printf("Qaqui22\n");
+            
+        }else if(p->rect.x < ( plataform.rect.x + (plataform.rect.w) /2 ) ){
+            p->velY = -p->velY;
+            p->rect.y += p->velY;
+            p->velX =  teste;
+            p->rect.x +=   teste  == 0 ? p->velX : teste;
+
+            if(p->velX > 0 ){
+                    p->velX = - p->velX ;
+                    p->rect.x += p->velX;
+            }
+            printf("Qaqui\n");
+            
+        }else{
+            p->velY = -p->velY;
+            p->rect.y += p->velY;
+            if(p->velX > 0 ){
+                p->velX = 0;
+                p->rect.x += p->velX;
+            }
+
+            printf("Qaqui3\n");
+            
+        }
+
+    }
 
 	/*laterais*/
 	if(p->rect.x > WIDTH - p->rect.w || p->rect.x < WIDTH / 4){
@@ -173,55 +217,15 @@ void moveNPC(NPC *p){
 	if(p->rect.y < 0){
 		p->velY = (-1)*p->velY;
 		p->rect.y += p->velY;
-      if(p->velX == 0){
-                            p->velX = 3;
-                        }
+        if(p->velX == 0){
+            p->velX = 3;
+        }
 
 	}
 
-    int teste;
-    /*plataforma*/
 
-    if(p->rect.y > 0.9*HEIGHT-p->rect.w && distance < maxDistance && distance > minDistance && dx > 0 && p->velY > 0){
-
-            teste =  (( ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /25) * p->velX ) %75);
-        if(p->rect.x >( plataform.rect.x + (plataform.rect.w) /2 ) ){
-            p->velY = -p->velY;
-            p->rect.y += p->velY;
-                p->velX = teste;
-                 p->rect.x +=  teste  == 0 ? p->velX : teste ;
-            if(p->velX < 0 ){
-                p->velX = - p->velX;
-                p->rect.x += p->velX;
-            }
-
-        }else if(p->rect.x < ( plataform.rect.x + (plataform.rect.w) /2 ) ){
-            p->velY = -p->velY;
-            p->rect.y += p->velY;
-            p->velX =  teste;
-            p->rect.x +=   teste  == 0 ? p->velX : teste;
-
-        if(p->velX > 0 ){
-                p->velX = - p->velX ;
-                p->rect.x += p->velX;
-            }
-
-        }else{
-            p->velY = -p->velY;
-            p->rect.y += p->velY;
-            if(p->velX > 0 ){
-                p->velX = 0;
-                p->rect.x += p->velX;
-            }
-
-
-
-        }
-
-    }
     /*nextlevel*/
-   // printf("%d\n",pointsTMP );
-        if (pointsTMP == 100 * ROWS * COLS){
+    if (pointsTMP == 100 * ROWS * COLS){
         lvl++;
         points+=1000;
         nextlevel(p,lvl);
@@ -251,6 +255,7 @@ void nextlevel(NPC *b,int level){
     printf("nextleve\n");
 
 }
+
 int trackCollision(NPC *p,int opt){
     int i,j;
 
@@ -352,28 +357,8 @@ int trackCollision(NPC *p,int opt){
                         }
                     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                //      p->velY = (-1)*p->velY;
-                 //       p->rect.y += p->velY;
+                    //      p->velY = (-1)*p->velY;
+                     //       p->rect.y += p->velY;
                         if(p->velX == 0){
                             p->velX = 3;
                             p->velY  = -p->velY;
@@ -511,6 +496,8 @@ int loadSound(){
 }
 
 int gameOver() {
+
+    //@TODO : Add restart 
     writeRank(nome,points);
     SDL_Texture *overImg;
     loadMedia(&overImg,"gameover.png");
@@ -532,7 +519,7 @@ int gameOver() {
             }
         }
     }
-    SDL_DestroyTexture(overImg);
+    //SDL_DestroyTexture(overImg);
     return 0;
 }
 
@@ -555,9 +542,6 @@ int ranking(){
                             return 0;
                     }
                     break;
-
-
-
             }
         }
     }

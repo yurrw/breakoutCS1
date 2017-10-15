@@ -17,4 +17,7 @@ int ranking();
 int writeRank(char usr[],int pontuacao);
 int cmp(const void * a, const void * b);
 void showRankT();
+
+int paddleBallColision();
+
 #endif
