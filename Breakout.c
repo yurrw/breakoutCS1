@@ -47,6 +47,7 @@ int main(int argc, char *argv[]){
 	//Loading screen limits for the game
 	if (loadMedia(&limite.texture,"borda.png"))
 		return 1;
+		
 	limite.rect.x = (WIDTH / 4) - 10;
 	limite.rect.y = 0;
 	limite.rect.w = (WIDTH / 4) * 3 + 10;
@@ -55,13 +56,14 @@ int main(int argc, char *argv[]){
 	//Loading score
 	if (loadMedia(&score.texture,"score.png"))
 		return 1;
+
 	score.rect.x = 0;
 	score.rect.y = 0;
 	score.rect.w = 157;
 	score.rect.h = HEIGHT;
 	
 	scoreRect.y = 0;
-	createNPC(&ball,WIDTH/2,HEIGHT/2,20,20,0,5,"ball.png");
+	createNPC(&ball,WIDTH/2,HEIGHT/2,15,15,0,5,"ball.png");
    	createBricks(lvl);
 
 	//Creating Plataform
