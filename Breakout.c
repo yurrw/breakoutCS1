@@ -146,7 +146,7 @@ int main(int argc, char *argv[]){
         SDL_RenderCopy(gRenderer, vidaTexture, NULL, &vidaRect);
         SDL_RenderCopy(gRenderer,nomeTexture,NULL,&nomeRect);
         SDL_RenderPresent(gRenderer);
-		SDL_Delay(30);	//TODO checar
+		SDL_Delay(5);	//TODO checar
 
 	}
 

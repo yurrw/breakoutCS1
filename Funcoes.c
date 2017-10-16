@@ -150,11 +150,10 @@ void createNPC(NPC *p,int x,int y,int w,int h,int velX,int velY,char path[]){
 void moveNPC(NPC *p){
     int dx,dy,
         maxDistance,minDistance,
-        distance;
+        distance,teste;
 
 	dx = p->rect.x - plataform.rect.x;
     dy = p->rect.y - plataform.rect.y;
-    
 
 	distance = sqrt(dx*dx + dy*dy);
 
@@ -164,11 +163,9 @@ void moveNPC(NPC *p){
 	p->rect.x += p->velX;
     p->rect.y += p->velY;
     
-    int teste;
     /*plataforma*/
    
     if(p->rect.y > 0.9*HEIGHT - p->rect.w && distance <= maxDistance  && dx >=  0 && p->velY > 0){
-        printf("KARL MARX 2017.2\n");
         teste =  (( ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /25) * p->velX ) %75); 
             
         if (p->rect.y  > (plataform.rect.h +plataform.rect.y ) ) {
@@ -218,12 +215,6 @@ void moveNPC(NPC *p){
                     p->velX = - p->velX ;
                     p->rect.x += p->velX;
             }
-           
-         /*
-         else if (( p->rect.y >  plataform.rect.y )){
-
-        }
-         */   
         }else{
        
 
