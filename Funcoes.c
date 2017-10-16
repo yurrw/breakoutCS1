@@ -153,7 +153,8 @@ void moveNPC(NPC *p){
         distance;
 
 	dx = p->rect.x - plataform.rect.x;
-	dy = p->rect.y - plataform.rect.y;
+    dy = p->rect.y - plataform.rect.y;
+    
 
 	distance = sqrt(dx*dx + dy*dy);
 
@@ -165,44 +166,73 @@ void moveNPC(NPC *p){
     
     int teste;
     /*plataforma*/
-    
-    if(p->rect.y > 0.9*HEIGHT - p->rect.w && distance < maxDistance && distance >= minDistance && dx >=  0 && p->velY > 0){
-
-        teste =  (( ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /25) * p->velX ) %75);
-        
-        if(p->rect.x >( plataform.rect.x + (plataform.rect.w) /2 ) ){
-            p->velY = -p->velY;
-            p->rect.y += p->velY;
-                p->velX = teste;
-                 p->rect.x +=  teste  == 0 ? p->velX : teste ;
-            if(p->velX < 0 ){
-                p->velX = - p->velX;
-                p->rect.x += p->velX;
-            }
-            printf("Qaqui22\n");
+   
+    if(p->rect.y > 0.9*HEIGHT - p->rect.w && distance <= maxDistance  && dx >=  0 && p->velY > 0){
+        printf("KARL MARX 2017.2\n");
+        teste =  (( ((p->rect.x -  (plataform.rect.x + plataform.rect.w/2)) /25) * p->velX ) %75); 
             
-        }else if(p->rect.x < ( plataform.rect.x + (plataform.rect.w) /2 ) ){
+        if (p->rect.y  > (plataform.rect.h +plataform.rect.y ) ) {
+            vida--;
+            p->rect.x = 0.5*WIDTH;
+            p->rect.y = 0.5*HEIGHT;
+        } else if( p->rect.y >=plataform.rect.y  && p->rect.y <= (plataform.rect.h +plataform.rect.y ) ){
+           
+            if(p->rect.x >( plataform.rect.x + (plataform.rect.w) /2 ) ){
+                p->velY = -p->velY;
+                p->rect.y += p->velY;
+                p->velX = abs(teste) * 2;
+                p->rect.x += abs(teste  == 0 ? p->velX : teste) * 2;
+            }
+
+
+            if(p->rect.x < ( plataform.rect.x + (plataform.rect.w) /2 ) ){
+                p->velY = -p->velY;
+                p->rect.y += p->velY;
+                p->velX = -abs(teste) * 2;
+                p->rect.x +=  - abs(teste  == 0 ? p->velX : teste) * 2;
+            }
+
+
+            printf("AQI");
+           
+        }else if(p->rect.x > (plataform.rect.x + plataform.rect.w /2 )){
+            //HITS RIGHT       
+                
+                p->velY = -p->velY;
+                p->rect.y += p->velY;
+                p->velX = teste;
+                p->rect.x +=  teste  == 0 ? p->velX : teste  + 1;
+                
+                if(p->velX < 0 ){
+                    p->velX = - p->velX;
+                    p->rect.x += p->velX;
+                }
+            
+        }else if(p->rect.x < ( plataform.rect.x + plataform.rect.w /2 )){
             p->velY = -p->velY;
             p->rect.y += p->velY;
             p->velX =  teste;
-            p->rect.x +=   teste  == 0 ? p->velX : teste;
+            p->rect.x +=   teste  == 0 ? p->velX : teste  - 1;
 
             if(p->velX > 0 ){
                     p->velX = - p->velX ;
                     p->rect.x += p->velX;
             }
-            printf("Qaqui\n");
-            
+           
+         /*
+         else if (( p->rect.y >  plataform.rect.y )){
+
+        }
+         */   
         }else{
+       
+
             p->velY = -p->velY;
             p->rect.y += p->velY;
             if(p->velX > 0 ){
                 p->velX = 0;
                 p->rect.x += p->velX;
             }
-
-            printf("Qaqui3\n");
-            
         }
 
     }
@@ -301,7 +331,7 @@ int trackCollision(NPC *p,int opt){
                          }
 
 
-                                   int ymax = 0;
+                    int ymax = 0;
                     if (brick[i][j].rect.y+brick[i][j].rect.h < p->rect.y+p->rect.h) {
                         ymax = brick[i][j].rect.y+brick[i][j].rect.h;
                     } else {
@@ -310,7 +340,7 @@ int trackCollision(NPC *p,int opt){
 
 
                     float ysize =  ymax -ymin;
-                         // Calculate xsize
+                    // Calculate xsize
                     float xmin = 0;
                     if (brick[i][j].rect.x > p->rect.x) {
                         xmin = brick[i][j].rect.x;

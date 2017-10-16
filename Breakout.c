@@ -65,7 +65,7 @@ int main(int argc, char *argv[]){
    	createBricks(lvl);
 
 	//Creating Plataform
-	createNPC(&plataform,WIDTH/2,0.9*HEIGHT,100,25,23,23,"plataform.png");
+	createNPC(&plataform,WIDTH/2,0.9*HEIGHT,100,20,20,20,"plataform.png");
 	
 	while(play){
 		//Moving to right
@@ -146,7 +146,7 @@ int main(int argc, char *argv[]){
         SDL_RenderCopy(gRenderer, vidaTexture, NULL, &vidaRect);
         SDL_RenderCopy(gRenderer,nomeTexture,NULL,&nomeRect);
         SDL_RenderPresent(gRenderer);
-		SDL_Delay(1);	//TODO checar
+		SDL_Delay(30);	//TODO checar
 
 	}
 
