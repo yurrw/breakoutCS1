@@ -63,7 +63,7 @@ int main(int argc, char *argv[]){
 	score.rect.h = HEIGHT;
 	
 	scoreRect.y = 0;
-	createNPC(&ball,WIDTH/2,HEIGHT/2,15,15,0,5,"ball.png");
+	createNPC(&ball,WIDTH/2,HEIGHT/2,15,15,0,4,"ball.png");
    	createBricks(lvl);
 
 	//Creating Plataform
@@ -148,7 +148,7 @@ int main(int argc, char *argv[]){
         SDL_RenderCopy(gRenderer, vidaTexture, NULL, &vidaRect);
         SDL_RenderCopy(gRenderer,nomeTexture,NULL,&nomeRect);
         SDL_RenderPresent(gRenderer);
-		SDL_Delay(5);	//TODO checar
+		SDL_Delay(35);	//TODO checar
 
 	}
 
